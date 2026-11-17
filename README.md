@@ -10,14 +10,20 @@ Berfungsi lintas bahasa prompt (Indonesia, Inggris, santai, formal) dan lintas t
 
 ## Instalasi
 
+Install langsung satu perintah lewat `agy` CLI:
+
+```bash
+agy plugin install https://github.com/rakamhrdka170803/uikeren
+agy plugin list
+```
+
+Atau jika ingin install dari folder lokal:
+
 ```bash
 git clone https://github.com/rakamhrdka170803/uikeren.git
 agy plugin validate --strict ./uikeren
 agy plugin install ./uikeren
-agy plugin list
 ```
-
-Atau langsung taruh folder `uikeren/` ke dalam `.agents/plugins/uikeren/` di proyek kamu (atau `~/.gemini/config/plugins/uikeren/` untuk global).
 
 ## Cara Menguji (Testing)
 
