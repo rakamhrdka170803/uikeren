@@ -9,52 +9,54 @@ description: >-
   anti-AI-slop guardrails adapted to the user's domain.
 ---
 
-# UI Keren — Anti-Slop Interactive Web Builder
+# UI Keren — Reference-Driven Anti-Slop Web Builder
 
-Build websites that feel genuinely art-directed, visually rich, and alive—like
-hand-crafted editorial and interactive product sites—never falling back to
-cookie-cutter AI split-hero templates or tiny placeholder SVG boxes.
+Specifically craft websites that **combine the layout drama, visual richness,
+and JS interaction craft** recorded from `pos.efisien.id`, `marsrejects.com`,
+and `discodungeongame.com`—adapted to any topic and any color palette the user
+wants.
 
 ## Workflow
 
-### 1. Choose Structural Archetype & Art Direction (Before Coding)
-Read [Art Direction Reference](./references/art-direction.md) and define a
-brief tailored to the prompt's domain (written in the user's language):
-- **Pick an Archetype**: Choose Full-Bleed Scroll-Morph Editorial
-  (`pos.efisien.id` DNA), High-Contrast Midnight Editorial (`marsrejects.com`
-  DNA), or Layered Kinetic Showcase (`discodungeongame.com` DNA)—adapted
-  authentically to the user's topic.
-- **Visual Media Plan (CRITICAL)**: Never leave hero/showcase sections with
-  tiny 24px–48px SVG icons inside bordered boxes! If `image-generator` is
-  available, generate 2–4 bespoke images; otherwise render rich full-bleed
-  HTML5 Canvas scenes or high-density interactive product previews.
-- **Typography & Palette**: Expressive display font + clean body font + mono
-  micro-labels; 1 dominant surface + 1 high-contrast ink + 1 sharp accent.
+### 1. Plan the Reference Blend & Visual Assets (Before Coding)
+Read [Art Direction Reference](./references/art-direction.md) and choose how to
+**blend** the three recorded reference styles for the user's domain:
+- **Hero Architecture**: Pick either `pos.efisien.id` full-bleed `100vh` hero
+  -> checkerboard mosaic morph, `marsrejects.com` **text-behind-subject**
+  layered hero, or `discodungeongame.com` atmospheric stage + floating central
+  anchor. Never default to a cramped 50/50 split box hero.
+- **Section Blending**: Mix full-bleed visual cards, tilted sticker captions,
+  clean **hairline-divided editorial lists** (`border-bottom: 1px solid`),
+  asymmetric framed UI/device showcases, and a dark closing band.
+- **Colors**: Follow any color palette the user asks for, or pick a palette
+  suited to the domain—there are **no banned colors**.
+- **Real Visuals (MANDATORY)**: Never use tiny 24–48px SVG icons inside empty
+  boxes as hero/card art! If `image-generator` is available, generate real
+  bespoke hero & card images (`object-cover`); otherwise build rich full-bleed
+  HTML5 `<canvas>` scenes or detailed interactive UI mockups.
 
-### 2. Assemble Recorded JS Interactions (Mandatory)
+### 2. Wire Recorded JS Interactions
 Read [JS Interaction Recipes](./references/js-recipes.md) and implement **2–4
-recorded mechanics** suited to the domain and stack (Vanilla JS, React, Astro,
+recorded mechanics** suited to the site and stack (Vanilla JS, React, Astro,
 Next.js, Vue):
-- **Full-Bleed Hero -> Mosaic Morph** (`initHeroMosaicMorph`)
-- **Scroll Reveal, Clip-Path Wipe & Scrubbing** (`initScrollMotion`)
-- **Closing Cursor & Ambient Trail** (`initClosingTrail`)
-- **Framer `backOut` Overshoot & `whileTap: scale(0.9)`**
-- **Interactive Content Explorer / Live Builder / Drawer**
-- **Full-Bleed Canvas Atmosphere** (`initAmbientCanvas` when no image assets exist)
+- `initHeroMosaicMorph` (full-bleed hero shrinking into checkerboard mosaic)
+- `initScrollMotion` (650ms reveal, `clip-path` wipe, `easeOutCubic` scrub)
+- **Text-Behind-Subject + Floating Bottom Dock** (`marsrejects.com` layout)
+- `initScrollSpine` + `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) & `scale(0.9)` tap
+- `initClosingTrail` (8-node pooled cursor trail + 2200ms ambient auto-spawn)
+- `initInteractiveTabs` / stateful builder + `initAmbientCanvas`
 
-Ensure all motion respects `prefers-reduced-motion: reduce` and keyboard focus.
+Respect `prefers-reduced-motion: reduce` and keyboard navigation.
 
-### 3. Enforce Anti-AI-Slop Guardrails (Hard Reject Gate)
-Audit against [Anti-Slop Checklist](./references/anti-slop-checklist.md) BEFORE
-finalizing. Specifically reject:
-- 50/50 split hero (`left text + 3 stats | right 2x3 box of tiny SVGs`)
-- Default neo-brutalist cream (`#F6F3EC`) + orange (`#FF5A36`) + `2px black`
-  borders unless requested
-- Tiny inline SVG icons pretending to be product photography or illustration
+### 3. Audit Against Anti-AI-Slop Checklist
+Check [Anti-Slop Checklist](./references/anti-slop-checklist.md) before finishing:
+- Reject 50/50 split box heroes (`left text + 3 stats | right 2x3 mini-cards`).
+- Reject tiny SVG sprites pretending to be product photography/illustration.
+- Reject dead buttons or boilerplate AI copy.
 
 ### 4. Verify Before Finishing
-1. Test all interactive controls (tabs, builders, carts, drawers, canvas/demos)
-   and verify real state updates.
-2. Verify responsive layout at mobile (`~375px`) and desktop (`~1280px+`)
-   with zero horizontal overflow.
+1. Test every interactive control (tabs, builders, carts, dock, canvas) for
+   real state updates.
+2. Check mobile (`~375px`) and desktop (`~1280px+`) responsiveness with zero
+   horizontal overflow.
 3. Confirm clean build/launch with zero JS console errors.

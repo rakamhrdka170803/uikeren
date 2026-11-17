@@ -1,65 +1,40 @@
 # Recorded JS Interaction Recipes
 
-Reusable, framework-agnostic JavaScript + CSS interaction mechanics **recorded
-from the real production code of the three reference sites**:
-- `pos.efisien.id` (`HeroMosaicMorph`, `ScrollMotion`, `LandingInteractive`,
-  `ClosingTrailSection`)
-- `marsrejects.com` (snappy `50ms–300ms` curves & `whileTap: scale(0.9)`)
-- `discodungeongame.com` (`backOut` overshoot, `{stiffness: 400, damping: 30}`,
-  looping emblem rotators)
-
-Always guard animations with `prefers-reduced-motion: reduce`.
+Reusable, framework-agnostic JavaScript + CSS mechanics **recorded from real
+Playwright & source-bundle inspections** of `pos.efisien.id`,
+`marsrejects.com`, and `discodungeongame.com`. Always guard motion with
+`prefers-reduced-motion: reduce`.
 
 ---
 
-## Recipe 1: Full-Bleed Hero -> Checkerboard Mosaic Morph (from `pos.efisien.id` `HeroMosaicMorph`)
-Starts as a **full-bleed `100vh` hero**, then on scroll smoothly shrinks and
-docks into a checkerboard mosaic (`easeOutQuad` + `easeInCirc`) while revealing
-a word-by-word rising display headline (`translate3d(0, 160px, 0) -> 0`).
+## Recipe 1: Full-Bleed Hero -> Checkerboard Mosaic Morph (`pos.efisien.id`)
+Starts as a `100vh` full-bleed stage (`1440px+` tall scroll runway), then
+shrinks smoothly (`easeOutQuad`) into a checkerboard mosaic of `rounded-[20px]`
+full-bleed tiles while a secondary display headline rises word-by-word.
 
 ```css
-.hero-morph-runway {
-  position: relative;
-  min-height: 185vh;
-}
+.hero-morph-runway { position: relative; min-height: 175vh; }
 .hero-morph-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: grid; place-items: center;
 }
 .hero-primary-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  transform-origin: center center;
-  will-change: transform, border-radius;
-  overflow: hidden;
+  position: absolute; inset: 0; z-index: 3;
+  transform-origin: center center; will-change: transform, border-radius; overflow: hidden;
 }
 .mosaic-checkerboard {
-  position: relative;
-  z-index: 1;
-  width: min(1180px, 94vw);
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: center;
+  position: relative; z-index: 1; width: min(1180px, 94vw);
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem; align-items: center;
 }
 .mosaic-item {
-  aspect-ratio: 1 / 1;
-  border-radius: 20px;
-  overflow: hidden;
-  opacity: 0;
-  transform: scale(0.25);
+  aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden;
+  opacity: 0; transform: scale(0.25);
   transition: transform 520ms cubic-bezier(0.33, 1.53, 0.69, 0.99), opacity 380ms ease;
 }
 .mosaic-item.is-shown { opacity: 1; transform: scale(1); }
 .mosaic-word {
-  display: inline-block;
-  opacity: 0;
-  transform: translate3d(0, 90px, 0);
+  display: inline-block; opacity: 0; transform: translate3d(0, 90px, 0);
   transition: transform 650ms cubic-bezier(0, 0, 0.2, 1), opacity 550ms ease;
 }
 .mosaic-word.is-shown { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -80,7 +55,6 @@ export function initHeroMosaicMorph(runwayEl, stageEl, dockEl) {
     words.forEach((el) => el.classList.add('is-shown'));
     return;
   }
-
   const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
   const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
   let ticking = false;
@@ -90,26 +64,22 @@ export function initHeroMosaicMorph(runwayEl, stageEl, dockEl) {
     const scrollable = Math.max(1, runwayEl.offsetHeight - window.innerHeight);
     const raw = clamp01(-rect.top / scrollable);
     const e = easeOutQuad(raw);
-
     const targetScale = dockEl ? Math.max(0.18, dockEl.offsetWidth / Math.max(1, window.innerWidth)) : 0.22;
-    const scale = 1 - e * (1 - targetScale);
-    const radius = e * 24;
-    stageEl.style.transform = `scale(${scale.toFixed(4)})`;
-    stageEl.style.borderRadius = `${radius.toFixed(1)}px`;
+    stageEl.style.transform = `scale(${(1 - e * (1 - targetScale)).toFixed(4)})`;
+    stageEl.style.borderRadius = `${(e * 24).toFixed(1)}px`;
 
-    const showMosaic = raw > 0.38;
+    const showMosaic = raw > 0.36;
     items.forEach((el, i) => {
       el.style.transitionDelay = showMosaic ? `${(i % 5) * 55}ms` : '0ms';
       el.classList.toggle('is-shown', showMosaic);
     });
-    const showWords = raw > 0.52;
+    const showWords = raw > 0.5;
     words.forEach((el, i) => {
       el.style.transitionDelay = showWords ? `${i * 45}ms` : '0ms';
       el.classList.toggle('is-shown', showWords);
     });
     ticking = false;
   };
-
   window.addEventListener('scroll', () => {
     if (!ticking) { ticking = true; requestAnimationFrame(render); }
   }, { passive: true });
@@ -119,32 +89,24 @@ export function initHeroMosaicMorph(runwayEl, stageEl, dockEl) {
 
 ---
 
-## Recipe 2: Scroll Reveal, Clip-Path Wipe & Scrubbing (from `pos.efisien.id` `ScrollMotion`)
+## Recipe 2: Scroll Reveal, Clip-Path Wipe & Scrubbing (`pos.efisien.id`)
 Exact recorded timings:
-- Standard reveal: `translate3d(0, 26px, 0)` -> `0` over `650ms cubic-bezier(0, 0, 0.2, 1)`
-- Clip-path wipe (`[data-reveal="clip"]`): `clip-path: inset(0% -4% 85% -4%)` -> `inset(-18% -4% -24% -4%)` over `700ms`
+- `translate3d(0, 26px, 0)` -> `0` over `650ms cubic-bezier(0, 0, 0.2, 1)`
+- Clip-path wipe (`[data-reveal="clip"]`): `inset(0% -4% 85% -4%)` -> `inset(-18% -4% -24% -4%)` over `700ms`
 - Scrub parallax (`[data-scrub]`): `easeOutCubic` (`1 - (1 - t)^3`) mapped to `--scroll-p`.
 
 ```css
 [data-reveal] {
-  opacity: 0;
-  transform: translate3d(0, 26px, 0);
-  transition:
-    opacity 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
-    transform 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
-    clip-path 700ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms);
+  opacity: 0; transform: translate3d(0, 26px, 0);
+  transition: opacity 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
+              transform 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
+              clip-path 700ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms);
   will-change: transform, opacity;
 }
-[data-reveal="clip"] {
-  clip-path: inset(0% -4% 85% -4%);
-  transform: translate3d(0, 22px, 0);
-}
+[data-reveal="clip"] { clip-path: inset(0% -4% 85% -4%); transform: translate3d(0, 22px, 0); }
 [data-reveal].is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
 [data-reveal="clip"].is-visible { clip-path: inset(-18% -4% -24% -4%); }
-[data-scrub] {
-  transform: translate3d(0, calc((var(--scroll-p, 0.5) - 0.5) * -38px), 0);
-  will-change: transform;
-}
+[data-scrub] { transform: translate3d(0, calc((var(--scroll-p, 0.5) - 0.5) * -38px), 0); will-change: transform; }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
   [data-scrub] { transform: none !important; }
@@ -190,8 +152,73 @@ export function initScrollMotion() {
 
 ---
 
-## Recipe 3: Closing Cursor & Ambient Trail (from `pos.efisien.id` `ClosingTrailSection`)
-Pooled `8` recycled nodes, `100ms ease-out` spawn, `1000ms cubic-bezier(0.16, 1, 0.3, 1)` exit scaling to `0.2`, plus **ambient auto-spawn** after `2200ms` idle when in view on desktop (`>= 768px`). Use crisp photo thumbnails or custom badge elements (not plain tiny text only).
+## Recipe 3: Layered Text-Behind-Subject & Floating Bottom Dock (`marsrejects.com`)
+Places monumental display type **behind** a foreground subject/visual layer
+with subtle pointer parallax, paired with a compact floating bottom dock.
+
+```css
+.depth-hero {
+  position: relative; min-height: 100vh; overflow: hidden;
+  display: grid; place-items: end center;
+}
+.depth-hero-title {
+  position: absolute; top: 14%; left: 50%; transform: translateX(-50%);
+  z-index: 1; font-size: clamp(3.5rem, 11vw, 8.5rem); line-height: 0.84;
+  text-align: center; pointer-events: none; user-select: none;
+}
+.depth-hero-subject {
+  position: relative; z-index: 2; width: min(920px, 94vw);
+  transition: transform 240ms cubic-bezier(0.12, 0.23, 0.5, 1);
+}
+.floating-dock {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 50; display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem; border-radius: 999px; backdrop-filter: blur(14px);
+}
+```
+
+---
+
+## Recipe 4: Scroll-Spine Progress & `backOut` Micro-Physics (`discodungeongame.com`)
+- Continuous central scroll-progress spine/indicator across sections
+- `backOut` overshoot: `cubic-bezier(0.33, 1.53, 0.69, 0.99)` (`300ms`)
+- Press feedback (`whileTap`): `scale(0.9)`
+
+```css
+.tactile-btn, .tactile-card {
+  transition: transform 300ms cubic-bezier(0.33, 1.53, 0.69, 0.99),
+              opacity 150ms cubic-bezier(0.12, 0.23, 0.5, 1);
+}
+.tactile-card:hover { transform: translateY(-4px); }
+.tactile-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+.tactile-btn:active, .tactile-card:active { transform: scale(0.9); }
+```
+
+```js
+export function initScrollSpine(spineEl, trackerEl) {
+  if (!spineEl || !trackerEl) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+  let ticking = false;
+  const update = () => {
+    const r = spineEl.getBoundingClientRect();
+    const total = Math.max(1, spineEl.offsetHeight - window.innerHeight);
+    const p = Math.min(1, Math.max(0, -r.top / total));
+    trackerEl.style.transform = `translate3d(-50%, ${(p * (spineEl.offsetHeight - trackerEl.offsetHeight)).toFixed(1)}px, 0)`;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
+}
+```
+
+---
+
+## Recipe 5: Closing Cursor & Ambient Trail (`pos.efisien.id` `ClosingTrailSection`)
+Pooled `8` nodes, `100ms ease-out` spawn, `1000ms cubic-bezier(0.16, 1, 0.3, 1)`
+exit scaling to `0.2`, plus **ambient auto-spawn** after `2200ms` idle on desktop.
 
 ```js
 export function initClosingTrail(sectionEl, renderItem) {
@@ -216,16 +243,14 @@ export function initClosingTrail(sectionEl, renderItem) {
   const coords = Array.from({ length: POOL }, () => ({ x: 0, y: 0 }));
 
   const retire = (idx) => {
-    const el = nodes[idx];
-    const { x, y } = coords[idx];
+    const el = nodes[idx], { x, y } = coords[idx];
     el.style.transition = 'opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), transform 1000ms cubic-bezier(0.16, 1, 0.3, 1)';
     el.style.opacity = '0';
     el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(0.2)`;
   };
 
   const spawn = (x, y) => {
-    const idx = seq % POOL;
-    const el = nodes[idx];
+    const idx = seq % POOL, el = nodes[idx];
     coords[idx] = { x, y };
     el.style.transition = 'none';
     el.style.zIndex = String(10 + (seq % 100));
@@ -261,78 +286,39 @@ export function initClosingTrail(sectionEl, renderItem) {
 
 ---
 
-## Recipe 4: Framer `backOut` Overshoot & `whileTap` Physics (from `marsrejects.com` & `discodungeongame.com`)
-- `backOut` overshoot: `cubic-bezier(0.33, 1.53, 0.69, 0.99)` (`300ms`)
-- Fast snap ease: `cubic-bezier(0.12, 0.23, 0.5, 1)` (`150ms`)
-- Press feedback (`whileTap`): `scale(0.9)`
-- Continuous emblem spin: `2s linear infinite`
-
-```css
-.tactile-btn,
-.tactile-card {
-  transition: transform 300ms cubic-bezier(0.33, 1.53, 0.69, 0.99),
-              opacity 150ms cubic-bezier(0.12, 0.23, 0.5, 1),
-              box-shadow 200ms ease;
-}
-.tactile-card:hover { transform: translateY(-4px); }
-.tactile-btn:hover { opacity: 0.85; transform: translateY(-2px); }
-.tactile-btn:active,
-.tactile-card:active { transform: scale(0.9); }
-
-.spin-badge { animation: uikeren-spin 2s linear infinite; }
-@keyframes uikeren-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .tactile-btn, .tactile-card { transition: none; transform: none !important; }
-  .spin-badge { animation: none; }
-}
-```
-
----
-
-## Recipe 5: Interactive Content Explorer & Live Builder (`LandingInteractive` pattern)
-Stateful switcher/builder/drawer with live DOM updates and `aria-selected` accessibility.
+## Recipe 6: Interactive Content Explorer & Full-Bleed Canvas Atmosphere
+Use `initInteractiveTabs` for real product/menu/feature switchers, and
+`initAmbientCanvas` whenever external photography is unavailable so every hero
+or backdrop stays richly alive instead of blank.
 
 ```js
 export function initInteractiveTabs({ tabSelector, panelSelector, onSwitch }) {
   const tabs = [...document.querySelectorAll(tabSelector)];
   const panels = [...document.querySelectorAll(panelSelector)];
   if (!tabs.length) return;
-
   const select = (targetId) => {
-    tabs.forEach((tab) => {
-      const active = tab.dataset.tab === targetId;
-      tab.classList.toggle('is-active', active);
-      tab.setAttribute('aria-selected', String(active));
+    tabs.forEach((t) => {
+      const active = t.dataset.tab === targetId;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', String(active));
     });
-    panels.forEach((panel) => {
-      const active = panel.dataset.panel === targetId;
-      panel.hidden = !active;
-      panel.classList.toggle('is-active', active);
+    panels.forEach((p) => {
+      const active = p.dataset.panel === targetId;
+      p.hidden = !active;
+      p.classList.toggle('is-active', active);
     });
     if (onSwitch) onSwitch(targetId);
   };
-
-  tabs.forEach((tab) => tab.addEventListener('click', () => select(tab.dataset.tab)));
+  tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.tab)));
   select(tabs[0].dataset.tab);
 }
-```
 
----
-
-## Recipe 6: Full-Bleed Canvas Atmosphere (Fallback when No External Images Exist)
-When building a standalone site without photographic assets, render a rich
-pointer-reactive HTML5 `<canvas>` backdrop (ambient light fields, floating
-particles, CRT/grid depth, or fluid color washes) instead of leaving blank
-surfaces or relying on tiny inline SVG icons.
-
-```js
-export function initAmbientCanvas(canvas, colors = ['#0f172a', '#1e293b', '#f97316']) {
+export function initAmbientCanvas(canvas, colors = ['#0b1021', '#1b264f', '#ff5a36']) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let w = 0, h = 0, mx = 0.5, my = 0.5;
-
   const resize = () => {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     w = canvas.clientWidth; h = canvas.clientHeight;
@@ -346,14 +332,13 @@ export function initAmbientCanvas(canvas, colors = ['#0f172a', '#1e293b', '#f973
     mx = (e.clientX - r.left) / Math.max(1, r.width);
     my = (e.clientY - r.top) / Math.max(1, r.height);
   });
-
   const draw = (t = 0) => {
     ctx.fillStyle = colors[0];
     ctx.fillRect(0, 0, w, h);
     const gx = w * (0.35 + mx * 0.3 + Math.sin(t * 0.0007) * 0.08);
     const gy = h * (0.35 + my * 0.3 + Math.cos(t * 0.0005) * 0.08);
     const grad = ctx.createRadialGradient(gx, gy, 20, gx, gy, Math.max(w, h) * 0.72);
-    grad.addColorStop(0, colors[2] + '55');
+    grad.addColorStop(0, colors[2] + '66');
     grad.addColorStop(0.45, colors[1] + 'cc');
     grad.addColorStop(1, colors[0]);
     ctx.fillStyle = grad;
