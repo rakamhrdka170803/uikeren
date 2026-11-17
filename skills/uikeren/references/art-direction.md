@@ -1,31 +1,49 @@
-# Art Direction & Layout Rhythm
+# Art Direction & Reference Architecture
 
-## 1. Visual Craft Principles
-Aim for the intentional personality of bespoke interactive websites:
-- **Editorial & Asymmetric Rhythm**: Mix split hero compositions, dense
-  border-framed bento grids, overlapping sticker/badge accents, and varied
-  band proportions instead of repeating identical centered 3-column grids.
-- **Depth & Tactility**: Use crisp `1px–2px` borders, subtle paper/noise/grid
-  textures, deliberate shadow offsets (soft atmospheric or crisp neo-brutalist
-  where appropriate), and clean visual framing.
-- **Authentic Domain Copy**: Write natural, punchy copy in the language of the
-  user's prompt—with realistic product names, prices, specs, micro-labels, and
-  actionable CTAs.
+Model the **actual layout drama, contrast, and visual density** of the three
+reference sites—never generic boxed templates:
 
-## 2. Typography Pairing Guidelines
-- **Display**: Expressive display font (`Syne`, `Bricolage Grotesque`,
-  `Fraunces`, `Space Grotesk`, `Instrument Serif`, `Archivo Black`, etc.) with
-  tight `letter-spacing` (`-0.03em` to `-0.05em`) and strong size contrast.
-- **Body**: Legible workhorse (`Plus Jakarta Sans`, `DM Sans`, `Manrope`,
-  `IBM Plex Sans`) with comfortable line-height (`1.5–1.65`).
-- **Mono / Micro-labels**: `JetBrains Mono` or `Space Mono` for prices, tags,
-  badges, step numbers, and metadata.
+## 1. Choose One of Three High-Craft Structural Archetypes
+Adapt the archetype to the user's domain (never copy another brand's content):
 
-## 3. Domain Adaptation Examples
-- **Culinary / Street Food (e.g., Bakpao)**: Warm dough/cream surfaces, deep
-  espresso or charcoal ink, pandan/chili/terracotta accent, stamp badges,
-  steaming/warmth motion, interactive flavor box builder + order drawer.
-- **SaaS / POS Tool**: Crisp light or ink-dark canvas, hairline grids, live
-  interactive preview/simulator, keyboard-friendly tabs.
-- **Game / Creative / Collectible**: Bold comic/arcade framing, sticker layers,
-  kinetic marquee, spring hover cards, optional sound/motion toggle.
+### Archetype A — Full-Bleed Scroll-Morph Editorial (`pos.efisien.id` DNA)
+- **Above the fold**: Full-bleed atmospheric hero (`100vh`) filled edge-to-edge
+  with rich photography, video, or interactive canvas—NO cramped 50/50 boxes.
+  Floating minimalist top bar, monumental centered/editorial serif+sans
+  display headline, clean pill CTA.
+- **Scroll transition**: As the user scrolls, the full-bleed hero shrinks and
+  docks cleanly (`HeroMosaicMorph`) into a sparse, airy **checkerboard mosaic**
+  of square (`rounded-[20px]`) full-bleed visual tiles & bold typographic
+  blocks, while a secondary display headline rises word-by-word.
+- **Contrast**: Alternate crisp studio light surfaces (`#FFFFFF` / `#F7F6F5`)
+  with deep dark full-bleed spotlight/video bands and tactile tabbed product
+  explorers.
+
+### Archetype B — High-Contrast Midnight Editorial (`marsrejects.com` DNA)
+- **Palette**: Deep midnight obsidian (`#021120`), bold crimson/electric accent
+  (`#F74A53`), crisp off-white paper (`#F5F0F0`), muted slate (`#435365`).
+- **Composition**: Full-bleed character/product art panels, dramatic scale
+  jumps between oversized display headings and tight technical metadata,
+  snappy `50ms–300ms` transitions and tactile `scale(0.9)` press responses.
+
+### Archetype C — Layered Kinetic Showcase (`discodungeongame.com` DNA)
+- **Atmosphere**: Rich saturated depth, parallax foreground/midground layers,
+  overshoot `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) micro-physics,
+  pop-in badges (`scale: 0 -> 1`), and an actually playable/interactive centerpiece
+  that fills its stage richly.
+
+## 2. Visual Density & Typography Rules
+- **Generate or build real visuals**: If `image-generator` is available in the
+  session, generate 2–4 bespoke editorial/product images for the hero and
+  mosaic/showcase tiles instead of drawing tiny inline SVG icons! If working
+  offline/pure code without image generation, build **full-bleed HTML5 Canvas
+  scenes or detailed interactive UI views**—never tiny SVGs floating in white
+  cards.
+- **Typography Pairing**: Combine a characterful display face (`Fraunces`,
+  `Syne`, `Instrument Serif`, `Bricolage Grotesque`, `Space Grotesk`) with a
+  clean sans (`Plus Jakarta Sans`, `Inter Tight`, `DM Sans`) and monospace
+  (`JetBrains Mono`, `Space Mono`) for prices/specs. Tight display tracking
+  (`-0.03em` to `-0.05em`).
+- **Strict Restraint**: 1 dominant surface + 1 ink + 1 sharp accent. Let
+  generous whitespace and full-bleed media create authority—do not wrap every
+  section in thick black borders.

@@ -1,87 +1,119 @@
 # Recorded JS Interaction Recipes
 
 Reusable, framework-agnostic JavaScript + CSS interaction mechanics **recorded
-and distilled from the real production JS/CSS of the three reference sites**:
-- `pos.efisien.id` (Astro Islands: `HeroMosaicMorph`, `ScrollMotion`,
-  `LandingInteractive`, `ClosingTrailSection`)
-- `marsrejects.com` (Framer motion curves & `whileTap` tactile states)
-- `discodungeongame.com` (Framer spring physics, `backOut` overshoot, loop rotators)
+from the real production code of the three reference sites**:
+- `pos.efisien.id` (`HeroMosaicMorph`, `ScrollMotion`, `LandingInteractive`,
+  `ClosingTrailSection`)
+- `marsrejects.com` (snappy `50ms–300ms` curves & `whileTap: scale(0.9)`)
+- `discodungeongame.com` (`backOut` overshoot, `{stiffness: 400, damping: 30}`,
+  looping emblem rotators)
 
-Adapt colors, copy, and assets to the user's domain—keep the extracted motion
-physics, timing curves, and real JS state intact. Always guard animations with
-`prefers-reduced-motion: reduce`.
+Always guard animations with `prefers-reduced-motion: reduce`.
 
 ---
 
-## Recipe 1: Scroll-Linked Hero Mosaic Morph (from `pos.efisien.id` `HeroMosaicMorph`)
-Scroll-driven hero-to-mosaic scale/translate morph using `easeOutQuad`
-(`1 - (1 - t)^2`) and `easeInCirc` (`1 - Math.sqrt(1 - t * t)`), plus
-`IntersectionObserver` pausing offscreen background video (`saveData`-aware).
+## Recipe 1: Full-Bleed Hero -> Checkerboard Mosaic Morph (from `pos.efisien.id` `HeroMosaicMorph`)
+Starts as a **full-bleed `100vh` hero**, then on scroll smoothly shrinks and
+docks into a checkerboard mosaic (`easeOutQuad` + `easeInCirc`) while revealing
+a word-by-word rising display headline (`translate3d(0, 160px, 0) -> 0`).
 
 ```css
-.hero-morph-stage {
+.hero-morph-runway {
   position: relative;
-  min-height: 92vh;
+  min-height: 185vh;
+}
+.hero-morph-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
-}
-.hero-morph-frame {
-  transform-origin: center top;
-  will-change: transform;
-}
-.mosaic-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  place-items: center;
 }
-.mosaic-tile {
-  border-radius: 1rem;
+.hero-primary-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transform-origin: center center;
+  will-change: transform, border-radius;
   overflow: hidden;
-  transition: transform 420ms cubic-bezier(0.33, 1.53, 0.69, 0.99), opacity 300ms ease;
 }
-.mosaic-tile.is-featured { transform: scale(1.04) translateY(-4px); z-index: 2; }
+.mosaic-checkerboard {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 94vw);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: center;
+}
+.mosaic-item {
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.25);
+  transition: transform 520ms cubic-bezier(0.33, 1.53, 0.69, 0.99), opacity 380ms ease;
+}
+.mosaic-item.is-shown { opacity: 1; transform: scale(1); }
+.mosaic-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 90px, 0);
+  transition: transform 650ms cubic-bezier(0, 0, 0.2, 1), opacity 550ms ease;
+}
+.mosaic-word.is-shown { opacity: 1; transform: translate3d(0, 0, 0); }
 @media (prefers-reduced-motion: reduce) {
-  .hero-morph-frame, .mosaic-tile { transform: none !important; transition: none; }
+  .hero-primary-stage, .mosaic-item, .mosaic-word {
+    transform: none !important; opacity: 1 !important; transition: none !important;
+  }
 }
 ```
 
 ```js
-export function initHeroMosaicMorph(stageEl, frameEl, tilesSelector = '.mosaic-tile') {
-  const tiles = [...stageEl.querySelectorAll(tilesSelector)];
+export function initHeroMosaicMorph(runwayEl, stageEl, dockEl) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
-  const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
-
-  if (!reduced && frameEl) {
-    const scrollEnd = 342;
-    let ticking = false;
-    const render = () => {
-      const p = clamp01((window.scrollY || 0) / scrollEnd);
-      const e = easeOutQuad(p);
-      const scale = 1 - e * 0.14;
-      const ty = e * 28;
-      frameEl.style.transform = `translate3d(0, ${ty.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-      ticking = false;
-    };
-    window.addEventListener('scroll', () => {
-      if (!ticking) { ticking = true; requestAnimationFrame(render); }
-    }, { passive: true });
-    render();
+  const items = [...runwayEl.querySelectorAll('.mosaic-item')];
+  const words = [...runwayEl.querySelectorAll('.mosaic-word')];
+  if (reduced) {
+    items.forEach((el) => el.classList.add('is-shown'));
+    words.forEach((el) => el.classList.add('is-shown'));
+    return;
   }
 
-  if (!tiles.length) return;
-  let active = 0;
-  const setActive = (i) => tiles.forEach((t, idx) => t.classList.toggle('is-featured', idx === i));
-  setActive(0);
-  if (reduced) return;
+  const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+  const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
+  let ticking = false;
 
-  let timer = setInterval(() => { active = (active + 1) % tiles.length; setActive(active); }, 2600);
-  tiles.forEach((tile, idx) => {
-    tile.addEventListener('mouseenter', () => {
-      clearInterval(timer);
-      active = idx;
-      setActive(idx);
+  const render = () => {
+    const rect = runwayEl.getBoundingClientRect();
+    const scrollable = Math.max(1, runwayEl.offsetHeight - window.innerHeight);
+    const raw = clamp01(-rect.top / scrollable);
+    const e = easeOutQuad(raw);
+
+    const targetScale = dockEl ? Math.max(0.18, dockEl.offsetWidth / Math.max(1, window.innerWidth)) : 0.22;
+    const scale = 1 - e * (1 - targetScale);
+    const radius = e * 24;
+    stageEl.style.transform = `scale(${scale.toFixed(4)})`;
+    stageEl.style.borderRadius = `${radius.toFixed(1)}px`;
+
+    const showMosaic = raw > 0.38;
+    items.forEach((el, i) => {
+      el.style.transitionDelay = showMosaic ? `${(i % 5) * 55}ms` : '0ms';
+      el.classList.toggle('is-shown', showMosaic);
     });
-  });
+    const showWords = raw > 0.52;
+    words.forEach((el, i) => {
+      el.style.transitionDelay = showWords ? `${i * 45}ms` : '0ms';
+      el.classList.toggle('is-shown', showWords);
+    });
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(render); }
+  }, { passive: true });
+  render();
 }
 ```
 
@@ -90,7 +122,7 @@ export function initHeroMosaicMorph(stageEl, frameEl, tilesSelector = '.mosaic-t
 ## Recipe 2: Scroll Reveal, Clip-Path Wipe & Scrubbing (from `pos.efisien.id` `ScrollMotion`)
 Exact recorded timings:
 - Standard reveal: `translate3d(0, 26px, 0)` -> `0` over `650ms cubic-bezier(0, 0, 0.2, 1)`
-- Clip-path wipe (`[data-reveal="clip"]`): `inset(0% -4% 85% -4%)` + `translate3d(0, 22px, 0)` -> `inset(-18% -4% -24% -4%)` over `700ms cubic-bezier(0, 0, 0.2, 1)`
+- Clip-path wipe (`[data-reveal="clip"]`): `clip-path: inset(0% -4% 85% -4%)` -> `inset(-18% -4% -24% -4%)` over `700ms`
 - Scrub parallax (`[data-scrub]`): `easeOutCubic` (`1 - (1 - t)^3`) mapped to `--scroll-p`.
 
 ```css
@@ -107,13 +139,8 @@ Exact recorded timings:
   clip-path: inset(0% -4% 85% -4%);
   transform: translate3d(0, 22px, 0);
 }
-[data-reveal].is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-[data-reveal="clip"].is-visible {
-  clip-path: inset(-18% -4% -24% -4%);
-}
+[data-reveal].is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+[data-reveal="clip"].is-visible { clip-path: inset(-18% -4% -24% -4%); }
 [data-scrub] {
   transform: translate3d(0, calc((var(--scroll-p, 0.5) - 0.5) * -38px), 0);
   will-change: transform;
@@ -128,24 +155,16 @@ Exact recorded timings:
 export function initScrollMotion() {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const reveals = [...document.querySelectorAll('[data-reveal]')];
-  if (reduced) {
-    reveals.forEach((el) => el.classList.add('is-visible'));
-    return;
-  }
+  if (reduced) { reveals.forEach((el) => el.classList.add('is-visible')); return; }
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
     });
   }, { threshold: 0, rootMargin: '0px 0px -24px 0px' });
 
   reveals.forEach((el, idx) => {
-    if (!el.style.getPropertyValue('--stagger')) {
-      el.style.setProperty('--stagger', `${(idx % 4) * 75}ms`);
-    }
+    if (!el.style.getPropertyValue('--stagger')) el.style.setProperty('--stagger', `${(idx % 4) * 75}ms`);
     io.observe(el);
   });
 
@@ -172,21 +191,16 @@ export function initScrollMotion() {
 ---
 
 ## Recipe 3: Closing Cursor & Ambient Trail (from `pos.efisien.id` `ClosingTrailSection`)
-Exact recorded pool & timing mechanics:
-- Pooled `8` recycled nodes (`O = 8`)
-- Spawn fade-in `100ms ease-out`, exit fade-out `1000ms cubic-bezier(0.16, 1, 0.3, 1)` scaling down to `scale(0.2)`
-- **Ambient auto-spawn** after `2200ms` of pointer idle while section is in view on desktop (`>= 768px`).
+Pooled `8` recycled nodes, `100ms ease-out` spawn, `1000ms cubic-bezier(0.16, 1, 0.3, 1)` exit scaling to `0.2`, plus **ambient auto-spawn** after `2200ms` idle when in view on desktop (`>= 768px`). Use crisp photo thumbnails or custom badge elements (not plain tiny text only).
 
 ```js
-export function initClosingTrail(sectionEl, labels = []) {
-  if (!sectionEl || !labels.length) return;
+export function initClosingTrail(sectionEl, renderItem) {
+  if (!sectionEl || typeof renderItem !== 'function') return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const POOL = 8;
   const nodes = Array.from({ length: POOL }, (_, i) => {
-    const el = document.createElement('span');
-    el.className = 'trail-item';
-    el.textContent = labels[i % labels.length];
+    const el = renderItem(i);
     Object.assign(el.style, {
       position: 'absolute', left: '0', top: '0', opacity: '0',
       pointerEvents: 'none', willChange: 'transform, opacity', zIndex: '1'
@@ -213,7 +227,6 @@ export function initClosingTrail(sectionEl, labels = []) {
     const idx = seq % POOL;
     const el = nodes[idx];
     coords[idx] = { x, y };
-    el.textContent = labels[seq % labels.length];
     el.style.transition = 'none';
     el.style.zIndex = String(10 + (seq % 100));
     el.style.opacity = '0';
@@ -221,8 +234,7 @@ export function initClosingTrail(sectionEl, labels = []) {
     el.offsetWidth;
     el.style.transition = 'opacity 100ms ease-out';
     el.style.opacity = '1';
-    const oldIdx = (seq - 4 + POOL) % POOL;
-    if (seq >= 4) retire(oldIdx);
+    if (seq >= 4) retire((seq - 4 + POOL) % POOL);
     seq++;
   };
 
@@ -249,12 +261,11 @@ export function initClosingTrail(sectionEl, labels = []) {
 
 ---
 
-## Recipe 4: Framer Spring Tactile Press & `backOut` Overshoot (from `marsrejects.com` & `discodungeongame.com`)
-Exact recorded Framer curves and tap/hover responses:
+## Recipe 4: Framer `backOut` Overshoot & `whileTap` Physics (from `marsrejects.com` & `discodungeongame.com`)
 - `backOut` overshoot: `cubic-bezier(0.33, 1.53, 0.69, 0.99)` (`300ms`)
-- Fast snap ease: `cubic-bezier(0.12, 0.23, 0.5, 1)` (`150ms–200ms`)
+- Fast snap ease: `cubic-bezier(0.12, 0.23, 0.5, 1)` (`150ms`)
 - Press feedback (`whileTap`): `scale(0.9)`
-- Continuous kinetic badge/emblem spin: `2s linear infinite` (pauses under reduced motion)
+- Continuous emblem spin: `2s linear infinite`
 
 ```css
 .tactile-btn,
@@ -263,8 +274,8 @@ Exact recorded Framer curves and tap/hover responses:
               opacity 150ms cubic-bezier(0.12, 0.23, 0.5, 1),
               box-shadow 200ms ease;
 }
-.tactile-card:hover { transform: translateY(-4px) rotate(var(--tilt, -0.8deg)); }
-.tactile-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+.tactile-card:hover { transform: translateY(-4px); }
+.tactile-btn:hover { opacity: 0.85; transform: translateY(-2px); }
 .tactile-btn:active,
 .tactile-card:active { transform: scale(0.9); }
 
@@ -279,9 +290,7 @@ Exact recorded Framer curves and tap/hover responses:
 ---
 
 ## Recipe 5: Interactive Content Explorer & Live Builder (`LandingInteractive` pattern)
-Replaces static feature grids with a stateful switcher/customizer (e.g., POS
-module tabs, bakpao flavor box builder + slide-over cart drawer, or game unit
-inspector) with real DOM state and `aria-selected` accessibility.
+Stateful switcher/builder/drawer with live DOM updates and `aria-selected` accessibility.
 
 ```js
 export function initInteractiveTabs({ tabSelector, panelSelector, onSwitch }) {
@@ -310,24 +319,47 @@ export function initInteractiveTabs({ tabSelector, panelSelector, onSwitch }) {
 
 ---
 
-## Recipe 6: Kinetic Dual-Track Marquee
-GPU-accelerated infinite horizontal strip for slogans, flavors, or tags—pauses
-on hover and disables automatically under `prefers-reduced-motion`.
+## Recipe 6: Full-Bleed Canvas Atmosphere (Fallback when No External Images Exist)
+When building a standalone site without photographic assets, render a rich
+pointer-reactive HTML5 `<canvas>` backdrop (ambient light fields, floating
+particles, CRT/grid depth, or fluid color washes) instead of leaving blank
+surfaces or relying on tiny inline SVG icons.
 
-```css
-.marquee-wrap { overflow: hidden; display: flex; }
-.marquee-track {
-  display: flex;
-  gap: 1.5rem;
-  flex-shrink: 0;
-  animation: uikeren-marquee 24s linear infinite;
-}
-.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
-@keyframes uikeren-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
+```js
+export function initAmbientCanvas(canvas, colors = ['#0f172a', '#1e293b', '#f97316']) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w = 0, h = 0, mx = 0.5, my = 0.5;
+
+  const resize = () => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+  canvas.addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    mx = (e.clientX - r.left) / Math.max(1, r.width);
+    my = (e.clientY - r.top) / Math.max(1, r.height);
+  });
+
+  const draw = (t = 0) => {
+    ctx.fillStyle = colors[0];
+    ctx.fillRect(0, 0, w, h);
+    const gx = w * (0.35 + mx * 0.3 + Math.sin(t * 0.0007) * 0.08);
+    const gy = h * (0.35 + my * 0.3 + Math.cos(t * 0.0005) * 0.08);
+    const grad = ctx.createRadialGradient(gx, gy, 20, gx, gy, Math.max(w, h) * 0.72);
+    grad.addColorStop(0, colors[2] + '55');
+    grad.addColorStop(0.45, colors[1] + 'cc');
+    grad.addColorStop(1, colors[0]);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+    if (!reduced) requestAnimationFrame(draw);
+  };
+  draw(0);
 }
 ```
