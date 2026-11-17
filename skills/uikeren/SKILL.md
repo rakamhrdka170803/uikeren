@@ -1,63 +1,72 @@
 ---
 name: uikeren
 description: >-
-  Use this skill whenever the user asks—in any language—to build, design,
-  create, or redesign a website, landing page, web UI, or interactive frontend
-  (e.g. "buatkan web bapau", "bikinin landing page", "build a product website",
-  "create an interactive site"). Enforces bespoke art direction, full-bleed
-  visual richness, recorded high-craft JavaScript interactions, and strict
-  anti-AI-slop guardrails adapted to the user's domain.
+  Core anti-slop web builder skill. Activate whenever the user asks—in any
+  language—to build, design, or redesign a website, landing page, or interactive
+  web UI. Enforces Liveliness Dials, Purpose-Gate checks, real image generation,
+  Playwright-recorded JS motion from marsrejects.com, discodungeongame.com, and
+  pos.efisien.id, plus a mandatory PASS/FAIL Delivery Gate.
 ---
 
-# UI Keren — Reference-Driven Anti-Slop Web Builder
+# UI Keren — Core Anti-Slop Engine
 
-Blend the **layout drama, visual richness, and JS interaction physics**
-recorded equally from `pos.efisien.id`, `marsrejects.com`, and
-`discodungeongame.com`—adapted originally to the user's topic and color
-preferences. Never default to `pos.efisien.id` alone, and never clone any
-reference section 1:1.
+> Filter + Direction combined. Removing AI slop leaves a sterile void unless
+> you inject real visual craft and Playwright-recorded interaction physics.
 
-## Workflow
+Load `uikeren-ui`, `uikeren-motion`, and `uikeren-layoutmobile` together with
+this core skill on every web build.
 
-### 1. Generate Real Visuals First (MANDATORY When Tool Available)
-Never fake photography or hero/card visuals with flat inline `<svg>` drawings
-(no SVG coffee pots, SVG contour lines, or tiny icons inside dark rounded
-boxes).
-- If the `image-generator` subagent is available, **invoke it first** to
-  generate **2–4 cohesive bespoke images** (e.g., 1 full-bleed hero scene,
-  2–3 product/editorial shots) matching the domain and palette.
+## Step 1: Declare Design Read & Liveliness Dials (Before Coding)
+Write one concise Design Read line in the user's language before writing code:
+> `Reading this as: <page kind> for <audience>, blending <reference ingredients>, dial ENERGY <1-3> / RHYTHM <1-3> / MOTION <1-3>.`
 
-### 2. Plan a Balanced 3-Reference Blend (Before Coding)
-Read [Art Direction Reference](./references/art-direction.md) and mix across
-all 3 references:
-- **Hero**: Pick either `marsrejects` **3D Perspective Depth Hero** (`initDepthHero`
-  with rear/title/front layers), `discodungeon` **Atmospheric Stage**, or
-  `pos.efisien.id` full-bleed hero.
-- **Middle Sections (Vary Every Band!)**: Never repeat `[left list | right dark
-  rounded card]` down the page. Use `discodungeon`'s **Screens Carousel**
-  (`initScreensCarousel`) and **3D Radial Burst Cluster** (`initRadialBurst`),
-  `marsrejects`'s **Tilted Stickers + Hairline Rows**, and 1 signature
-  interactive builder/customizer.
-- **Typography & Colors**: Use **any colors** the user asks for or that fit the
-  domain. Do NOT repeat the cliché `01 · MONO EYEBROW + Instrument Serif +
-  italic last word` header pattern on every section.
-- **Single Clean Nav**: Use **either** a top bar **or** a compact bottom pill
-  (with `padding-bottom: 104px` on `footer` so it never overlaps text).
+| Dial | 1 (Calm) | 2 (Balanced) | 3 (Bold — Default Target) |
+| :--- | :--- | :--- | :--- |
+| **ENERGY** | Clean editorial | Editorial + tactile accents | Monumental typography, 3D Z-depth, rich imagery |
+| **RHYTHM** | Predictable | Occasional layout break | Asymmetric, every section changes composition |
+| **MOTION** | Hover only | Scroll-reveal + tabs | Scroll-morph / 3D parallax / carousel / cursor trail |
 
-### 3. Wire Recorded JS Interactions
-Read [JS Interaction Recipes](./references/js-recipes.md) and implement **3–4
-recorded mechanics**:
-- `initDepthHero` (`marsrejects.com` 3D Z-layer parallax)
-- `initScreensCarousel` & `initRadialBurst` (`discodungeongame.com`)
-- `initScrollSpine` + `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) & `scale(0.9)` tap
-- `initScrollMotion` & `initClosingTrail` (`pos.efisien.id` — keep CTA at higher `z-index` than trail stamps)
+Default target for `uikeren` websites is **ENERGY 3 / RHYTHM 3 / MOTION 3**
+(unless the user asks for a minimal/calm utility).
 
-Respect `prefers-reduced-motion: reduce` and keyboard navigation.
+## Step 2: Written Purpose-Gate (`R-01` to `R-08`)
+Before finalizing your architecture, write a **1-line reason** for each choice
+(no "because AI usually puts it here"):
+- **R-01 Colors**: Any palette is allowed (including user-requested colors); cap
+  active core colors at 2–3 + 1 accent with clear contrast.
+- **R-02 Typography**: Why this display + body font? **FORBIDDEN**: repeating
+  `01 · MONO EYEBROW` + `Instrument Serif` + *italic last word* on every H2.
+- **R-03 Visual Assets (NO `imgs: 0`!)**: If `image-generator` is available,
+  **invoke it first** to generate 2–4 bespoke domain images (hero scene,
+  product/editorial photos). **FORBIDDEN**: replacing real photography/art with
+  flat inline `<svg>` doodles (beans, cups, contour graphs, tiny boxes).
+- **R-04 Section Rhythm (No Repeated Middle Boxes)**: When `RHYTHM = 3`,
+  Sections 2, 3, and 4 MUST use **visibly different compositions**—never stack
+  repeated `[Left Text | Right Dark Rounded Box]` or 2x3 identical card grids.
+- **R-05 Original Blend (Never Clone 1:1)**: Borrow mechanics from all 3
+  references (`marsrejects.com`, `discodungeongame.com`, `pos.efisien.id`),
+  never copying any single site's layout verbatim.
+- **R-06 Single Non-Overlapping Navigation**: Use **either** a top navbar **or**
+  a compact bottom pill (`padding-bottom: 112px` on `footer`)—never stack both
+  and never let a fixed dock cover list rows, buttons, or footer text.
+- **R-07 Real Interactive State**: Every button, tab, carousel, builder, or
+  drawer must work end-to-end (zero dead `href="#"` controls).
+- **R-08 Natural Human Copy**: Zero em-dash (`—`) overuse, zero AI buzzwords
+  (*"Revolutionize"*, *"Seamless"*, *"Elevate"*), zero fake `10K+ Users` stats.
 
-### 4. Audit & Verify
-Check [Anti-Slop Checklist](./references/anti-slop-checklist.md) and verify in
-browser/build:
-1. Real images/rich scenes present (no flat SVG diagram placeholders).
-2. Middle sections have distinct layouts (not repeated 2-col dark cards).
-3. Zero fixed-dock/trail overlap on buttons, rows, or footer text.
-4. Zero JS console errors and clean mobile + desktop responsiveness.
+## Step 3: Mandatory Delivery Gate (Run BEFORE Delivering)
+Verify every item below; if ANY item fails, fix it first before answering:
+- [ ] **Real Visuals Check**: At least 2–4 real images (`<img>` with
+      `object-cover`) or rich full-bleed `<canvas>` scenes—NOT `imgs: 0` with
+      only flat SVG diagrams.
+- [ ] **AI Tell Scan (`uikeren-ui`)**: No pill eyebrow with pulsing dot above H1,
+      no 2x3 copy-paste feature cards, no decorative background grid lines, no
+      pill-shaped everything.
+- [ ] **Section Variety Check**: Section 1, 2, 3, and 4 each have distinct
+      structure (e.g., 3D Z-depth hero -> horizontal Screens Carousel -> 3D
+      Radial Cluster / interactive builder -> closing trail).
+- [ ] **Motion Check (`uikeren-motion`)**: At least 3 recorded JS interactions
+      active & tested, with `prefers-reduced-motion: reduce` support.
+- [ ] **Mobile & Overlap Check (`uikeren-layoutmobile`)**: Tested at desktop
+      (`1440px`) and mobile (`375px`), zero horizontal overflow, zero fixed dock
+      or trail stamp covering text/buttons, zero console errors.

@@ -1,37 +1,39 @@
-# Recorded JS Interaction Recipes (All 3 Reference Sites Balanced)
+---
+name: uikeren-motion
+description: >-
+  Playwright-recorded JS and CSS motion skill for UI Keren. Balanced interactive
+  recipes extracted from marsrejects.com, discodungeongame.com, and
+  pos.efisien.id (3D Z-depth parallax, radial burst clusters, screens carousel,
+  scroll-spine, clip-path reveals, and pooled cursor trail).
+---
 
-Reusable, framework-agnostic JavaScript + CSS recipes **recorded via
-Playwright + source inspection** across ALL THREE reference sites equally—so
-designs blend all three instead of copying `pos.efisien.id` every time.
-Always guard motion with `prefers-reduced-motion: reduce`.
+# UI Keren — Playwright-Recorded JS Motion Recipes
+
+Use alongside `uikeren/SKILL.md`. Blend recipes across **all 3 reference
+sites** rather than defaulting to `pos.efisien.id` alone. Always guard motion
+with `prefers-reduced-motion: reduce`.
 
 ---
 
-## Recipe 1: 3D Perspective Depth Hero & Expandable Bottom Pill (`marsrejects.com`)
-Recorded `marsrejects.com` layout (`perspective: 1200px` -> `matrix3d` depth):
-- **3 sandwiched Z-layers**: Rear subjects (`translateZ(-120px)`) -> Monumental
-  Display Title (`translateZ(-40px)`) -> Foreground subjects (`translateZ(40px)`),
-  reacting smoothly to pointer & scroll!
-- **Expandable Bottom Menu Pill (`350x78` compact dock)**: Replaces bulky top
-  headers with a sleek bottom pill that toggles open/closed.
+## 1. 3D Z-Depth Sandwiched Hero & Tilted Stickers (`marsrejects.com`)
+Recorded from `marsrejects.com` (`perspective: 1200px`, `matrix3d` depth layers,
+plus `rotate(±1deg)` story stickers with `0 10px 10px -2.5px rgba(0,0,0,0.3)`):
 
 ```css
 .depth-stage {
-  position: relative; min-height: 100vh; overflow: hidden;
+  position: relative; min-height: 92dvh; overflow: hidden;
   perspective: 1200px; display: grid; place-items: center;
 }
 .depth-layer {
   position: absolute; inset: 0; display: grid; place-items: center;
-  will-change: transform; transition: transform 180ms ease-out;
+  will-change: transform; transition: transform 200ms cubic-bezier(0.12, 0.23, 0.5, 1);
 }
 .depth-rear { z-index: 1; }
 .depth-title { z-index: 2; pointer-events: none; text-align: center; }
 .depth-front { z-index: 3; pointer-events: none; align-items: end; }
-.bottom-pill-nav {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  z-index: 60; display: flex; align-items: center; gap: 0.45rem;
-  padding: 0.45rem 0.65rem; border-radius: 999px;
-  backdrop-filter: blur(14px);
+.tilted-sticker {
+  transform: rotate(var(--tilt, -1.2deg));
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25), 0 10px 16px -4px rgba(0,0,0,0.32);
 }
 ```
 
@@ -45,9 +47,7 @@ export function initDepthHero(stageEl) {
     const ny = (e.clientY - r.top) / Math.max(1, r.height) - 0.5;
     layers.forEach((el) => {
       const d = Number(el.dataset.depth || 1);
-      const tx = (nx * d * 28).toFixed(1);
-      const ty = (ny * d * 18).toFixed(1);
-      el.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${1 + Math.abs(d) * 0.01})`;
+      el.style.transform = `translate3d(${(nx * d * 28).toFixed(1)}px, ${(ny * d * 18).toFixed(1)}px, 0)`;
     });
   });
   stageEl.addEventListener('pointerleave', () => {
@@ -58,35 +58,49 @@ export function initDepthHero(stageEl) {
 
 ---
 
-## Recipe 2: Screens Carousel + Radial Burst Features (`discodungeongame.com`)
-Recorded directly from `discodungeongame.com`'s middle sections (so middle
-sections are **visual & kinetic**, never dry `[text left | dark box right]`):
-- **Horizontal Screens Carousel** (`Previous` / `Next` + dot pagination) with
-  spring slide transitions and full-bleed `object-cover` showcase cards.
-- **3D Radial Burst Cluster (`Power Section`)**: Feature cards/badges burst out
-  from center (`scale(0.49) translate3d(...) -> scale(1) translate3d(0,0,0)`)
-  when scrolled into view!
+## 2. 3D Radial Burst Cluster (`discodungeongame.com` `Power Section`)
+Recorded from `discodungeongame.com`'s staggered `power1..power4` cluster
+(`matrix3d(0.49 -> 1.0, ..., -137px..0, -150px..0)`): cards/badges burst
+outward in organic staggered positions instead of boring 2x3 symmetric grids.
 
 ```css
-.screens-viewport { overflow: hidden; width: 100%; }
-.screens-track {
-  display: flex; gap: 1.25rem;
-  transition: transform 520ms cubic-bezier(0.33, 1.53, 0.69, 0.99);
-}
+.burst-cluster { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .burst-item {
   opacity: 0;
-  transform: translate3d(var(--bx, 0px), var(--by, 40px), 0) scale(0.49);
+  transform: translate3d(var(--bx, -40px), var(--by, 48px), 0) scale(0.49);
   transition: transform 680ms cubic-bezier(0.33, 1.53, 0.69, 0.99), opacity 420ms ease;
 }
-.burst-item.is-burst {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-@media (prefers-reduced-motion: reduce) {
-  .screens-track { transition: none; }
-  .burst-item { opacity: 1; transform: none; transition: none; }
+.burst-item:nth-child(even) { transform: translateY(24px) translate3d(var(--bx, 40px), var(--by, 48px), 0) scale(0.49); }
+.burst-item.is-burst { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+.burst-item.is-burst:nth-child(even) { transform: translateY(24px) scale(1); }
+@media (max-width: 767px) { .burst-item.is-burst:nth-child(even) { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .burst-item { opacity: 1; transform: none !important; transition: none; } }
+```
+
+```js
+export function initRadialBurst(containerEl) {
+  if (!containerEl) return;
+  const items = [...containerEl.querySelectorAll('.burst-item')];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach((el) => el.classList.add('is-burst'));
+    return;
+  }
+  const io = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    items.forEach((el, i) => {
+      el.style.transitionDelay = `${i * 75}ms`;
+      el.classList.add('is-burst');
+    });
+    io.disconnect();
+  }, { threshold: 0.18 });
+  io.observe(containerEl);
 }
 ```
+
+---
+
+## 3. Horizontal Screens Carousel (`discodungeongame.com` `Screens carousel`)
+Recorded `Prev` / `Next` + pagination dot slider with `backOut` spring glide.
 
 ```js
 export function initScreensCarousel(rootEl) {
@@ -101,53 +115,31 @@ export function initScreensCarousel(rootEl) {
   let index = 0;
   const go = (i) => {
     index = (i + slides.length) % slides.length;
-    const step = slides[0].getBoundingClientRect().width + 20;
-    track.style.transform = `translate3d(${-(index * step)}px, 0, 0)`;
+    const gap = parseFloat(getComputedStyle(track).gap || '20') || 20;
+    const step = slides[0].getBoundingClientRect().width + gap;
+    track.style.transform = `translate3d(${-(index * step).toFixed(1)}px, 0, 0)`;
     dots.forEach((d, di) => {
       d.classList.toggle('is-active', di === index);
       d.setAttribute('aria-current', di === index ? 'true' : 'false');
     });
   };
-
   prev?.addEventListener('click', () => go(index - 1));
   next?.addEventListener('click', () => go(index + 1));
   dots.forEach((d, di) => d.addEventListener('click', () => go(di)));
   window.addEventListener('resize', () => go(index));
   go(0);
 }
-
-export function initRadialBurst(containerEl) {
-  if (!containerEl) return;
-  const items = [...containerEl.querySelectorAll('.burst-item')];
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    items.forEach((el) => el.classList.add('is-burst'));
-    return;
-  }
-  const io = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    items.forEach((el, i) => {
-      el.style.transitionDelay = `${i * 70}ms`;
-      el.classList.add('is-burst');
-    });
-    io.disconnect();
-  }, { threshold: 0.2 });
-  io.observe(containerEl);
-}
 ```
 
 ---
 
-## Recipe 3: Scroll-Spine Journey & `backOut` Micro-Physics (`discodungeongame.com`)
-Continuous vertical guide/emblem moving down the page as you scroll, paired
-with `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) & `scale(0.9)` tap.
-
+## 4. Scroll-Spine & `backOut` Micro-Physics (`discodungeongame.com`)
 ```css
 .tactile-btn, .tactile-card {
   transition: transform 300ms cubic-bezier(0.33, 1.53, 0.69, 0.99),
               opacity 150ms cubic-bezier(0.12, 0.23, 0.5, 1);
 }
-.tactile-card:hover { transform: translateY(-4px); }
-.tactile-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+.tactile-btn:hover { opacity: 0.86; transform: translateY(-2px); }
 .tactile-btn:active, .tactile-card:active { transform: scale(0.9); }
 ```
 
@@ -172,9 +164,11 @@ export function initScrollSpine(spineEl, trackerEl) {
 
 ---
 
-## Recipe 4: Full-Bleed Scroll-Morph & Clip-Path Reveal (`pos.efisien.id`)
-Use when choosing the editorial photo-morph opening (`HeroMosaicMorph`) +
-`650ms cubic-bezier(0, 0, 0.2, 1)` / `clip-path` wipe reveals (`ScrollMotion`).
+## 5. Clip-Path Reveals & Pooled Closing Trail (`pos.efisien.id`)
+Recorded `ScrollMotion` (`650ms cubic-bezier(0, 0, 0.2, 1)`, clip-path wipe)
+and `ClosingTrailSection` (`8`-node pool, `100ms` spawn, `1000ms` exit,
+`2200ms` idle auto-spawn). Always keep closing `h2` & CTA buttons at
+`z-index: 5` above trail nodes (`z-index: 1`).
 
 ```css
 [data-reveal] {
@@ -182,7 +176,6 @@ Use when choosing the editorial photo-morph opening (`HeroMosaicMorph`) +
   transition: opacity 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
               transform 650ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms),
               clip-path 700ms cubic-bezier(0, 0, 0.2, 1) var(--stagger, 0ms);
-  will-change: transform, opacity;
 }
 [data-reveal="clip"] { clip-path: inset(0% -4% 85% -4%); transform: translate3d(0, 22px, 0); }
 [data-reveal].is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -207,16 +200,7 @@ export function initScrollMotion() {
     io.observe(el);
   });
 }
-```
 
----
-
-## Recipe 5: Closing Cursor & Ambient Trail (`pos.efisien.id`)
-Pooled `8` nodes (`100ms` spawn, `1000ms cubic-bezier(0.16, 1, 0.3, 1)` exit,
-`2200ms` ambient auto-spawn). Always keep closing `h2` & CTA buttons at higher
-`z-index` than trail stamps so stamps never cover button text.
-
-```js
 export function initClosingTrail(sectionEl, renderItem) {
   if (!sectionEl || typeof renderItem !== 'function') return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

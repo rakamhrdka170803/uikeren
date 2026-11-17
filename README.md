@@ -1,39 +1,41 @@
 # UI Keren — Anti-Slop Interactive Web Plugin
 
-Plugin Antigravity untuk membangun website dan landing page yang **anti-AI-slop**—memadukan *art direction* yang berkarakter dengan **elemen JS interaktif** yang direkam menjadi resep modular bersih (terinspirasi kualitas interaksi situs seperti `pos.efisien.id`, `marsrejects.com`, dan `discodungeongame.com`).
+Plugin Antigravity modular untuk membangun website & landing page yang
+**anti-AI-slop**, memadukan arsitektur penegakan anti-slop (Liveliness Dials,
+Written Purpose-Gate, AI Tell Detector, & PASS/FAIL Delivery Gate) dengan
+**resep JS & layout hasil rekaman Playwright** dari `marsrejects.com`,
+`discodungeongame.com`, dan `pos.efisien.id`.
 
-Berfungsi lintas bahasa prompt (Indonesia, Inggris, santai, formal) dan lintas tech stack (HTML/Vanilla JS, React, Next.js, Astro, Vue).
+## Skill di Dalam Plugin (`4` Skill Terintegrasi)
+- **`uikeren`** — Core engine, Liveliness Dials (`ENERGY/RHYTHM/MOTION`), kewajiban
+  gambar asli (`image-generator`), dan `PASS/FAIL` Delivery Gate.
+- **`uikeren-ui`** — Detektor *AI tells* konkret (pill dot di atas H1, kartu 2x3
+  kembar, garis grid latar, SVG datar pengganti foto, dock bertabrakan) tanpa
+  melarang palet warna apa pun.
+- **`uikeren-motion`** — Resep JS/CSS rekaman Playwright dari ketiga situs
+  referensi (`initDepthHero`, `initRadialBurst`, `initScreensCarousel`,
+  `initScrollSpine`, `initScrollMotion`, `initClosingTrail`).
+- **`uikeren-layoutmobile`** — Reflow responsif mobile–tablet–desktop, target
+  sentuh `>= 44px`, dan nol overlap.
 
-## Apa Itu "Anti-Slop"?
-**AI Slop** adalah ciri khas website buatan AI yang terasa generik dan templated (misal: gradient ungu-biru neon di mana-mana, 3 kartu fitur simetris membosankan, hero standar tanpa karakter, copywriting klise, dan tombol mati).
-**Anti-Slop** memastikan setiap web punya konsep visual sesuai topiknya, copywriting natural, dan elemen JS interaktif yang benar-benar bekerja.
-
-## Instalasi
-
-Install langsung satu perintah lewat `agy` CLI:
+## Instalasi & Update
 
 ```bash
 agy plugin install https://github.com/rakamhrdka170803/uikeren
 agy plugin list
 ```
 
-Atau jika ingin install dari folder lokal:
+Untuk update ke versi terbaru:
 
 ```bash
-git clone https://github.com/rakamhrdka170803/uikeren.git
-agy plugin validate --strict ./uikeren
-agy plugin install ./uikeren
+agy plugin uninstall uikeren
+agy plugin install https://github.com/rakamhrdka170803/uikeren
 ```
 
-## Cara Menguji (Testing)
+## Cara Pakai & Test
 
-Setelah plugin aktif, coba uji dengan beberapa prompt yang kontras:
-
-1. **Kuliner / UMKM**: `"Buatkan web bapau kekinian dengan builder paket isi box dan keranjang pesan"`
-2. **SaaS / Utility**: `"Buatkan landing page aplikasi POS kasir dengan simulator fitur interaktif"`
-3. **Game / Kreatif**: `"Build an interactive retro puzzle RPG landing page with tactile cards"`
-
-Pastikan hasilnya:
-- Mengadaptasi tema sesuai domain (tidak menyalin tema situs referensi mentah-mentah).
-- Memiliki minimal 2–4 elemen JS aktif dari `js-recipes.md` (mosaic morph, scroll motion, live switcher/builder, spring tactile cards, closing cursor trail, atau kinetic marquee).
-- Responsif di mobile & desktop tanpa error di console.
+Buka folder proyek baru, jalankan `agy`, lalu ketik prompt singkat dalam bahasa
+apa pun:
+- `"Buatkan web bapau pakai uikeren"`
+- `"Buatkan web kedai kopi & slow bar pakai uikeren"`
+- `"Build an interactive indie game site using uikeren"`
