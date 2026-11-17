@@ -1,22 +1,21 @@
-# UI Keren — Anti-Slop Interactive Web Plugin
+# UI Keren — Reference-Driven Web Craft Plugin
 
 Plugin Antigravity modular untuk membangun website & landing page yang
-**anti-AI-slop**, memadukan arsitektur penegakan anti-slop (Liveliness Dials,
-Written Purpose-Gate, AI Tell Detector, & PASS/FAIL Delivery Gate) dengan
-**resep JS & layout hasil rekaman Playwright** dari `marsrejects.com`,
-`discodungeongame.com`, dan `pos.efisien.id`.
+berkarakter dan bebas pola AI generik—memadukan **resep JS & layout hasil
+rekaman Playwright** dari `marsrejects.com`, `discodungeongame.com`, dan
+`pos.efisien.id` dengan sistem verifikasi kualitas bawaan.
 
 ## Skill di Dalam Plugin (`4` Skill Terintegrasi)
-- **`uikeren`** — Core engine, Liveliness Dials (`ENERGY/RHYTHM/MOTION`), kewajiban
-  gambar asli (`image-generator`), dan `PASS/FAIL` Delivery Gate.
-- **`uikeren-ui`** — Detektor *AI tells* konkret (pill dot di atas H1, kartu 2x3
+- **`uikeren`** — Alur kerja utama, profil intensitas (`Visual / Variasi / Gerak`),
+  kewajiban aset visual nyata (`image-generator`), dan pengecekan pra-rilis.
+- **`uikeren-craft`** — Filter pola AI generik (pill dot di atas H1, kartu 2x3
   kembar, garis grid latar, SVG datar pengganti foto, dock bertabrakan) tanpa
   melarang palet warna apa pun.
 - **`uikeren-motion`** — Resep JS/CSS rekaman Playwright dari ketiga situs
   referensi (`initDepthHero`, `initRadialBurst`, `initScreensCarousel`,
   `initScrollSpine`, `initScrollMotion`, `initClosingTrail`).
-- **`uikeren-layoutmobile`** — Reflow responsif mobile–tablet–desktop, target
-  sentuh `>= 44px`, dan nol overlap.
+- **`uikeren-responsive`** — Reflow mobile–tablet–desktop, target sentuh
+  `>= 44px`, dan jarak aman navigasi.
 
 ## Instalasi & Update
 
@@ -32,7 +31,7 @@ agy plugin uninstall uikeren
 agy plugin install https://github.com/rakamhrdka170803/uikeren
 ```
 
-## Cara Pakai & Test
+## Cara Pakai
 
 Buka folder proyek baru, jalankan `agy`, lalu ketik prompt singkat dalam bahasa
 apa pun:

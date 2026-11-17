@@ -1,23 +1,23 @@
 ---
 name: uikeren-motion
 description: >-
-  Playwright-recorded JS and CSS motion skill for UI Keren. Balanced interactive
-  recipes extracted from marsrejects.com, discodungeongame.com, and
-  pos.efisien.id (3D Z-depth parallax, radial burst clusters, screens carousel,
-  scroll-spine, clip-path reveals, and pooled cursor trail).
+  Playwright-recorded JS and CSS interaction recipes for UI Keren, extracted
+  from marsrejects.com, discodungeongame.com, and pos.efisien.id (3D Z-depth
+  parallax, radial burst clusters, screens carousel, scroll-spine, clip-path
+  reveals, and pooled cursor trail).
 ---
 
-# UI Keren — Playwright-Recorded JS Motion Recipes
+# UI Keren — Recorded JS Motion Recipes
 
-Use alongside `uikeren/SKILL.md`. Blend recipes across **all 3 reference
-sites** rather than defaulting to `pos.efisien.id` alone. Always guard motion
-with `prefers-reduced-motion: reduce`.
+Use with `uikeren/SKILL.md`. Blend mechanics across **all 3 reference sites**
+rather than leaning on `pos.efisien.id` alone. Always respect
+`prefers-reduced-motion: reduce`.
 
 ---
 
-## 1. 3D Z-Depth Sandwiched Hero & Tilted Stickers (`marsrejects.com`)
-Recorded from `marsrejects.com` (`perspective: 1200px`, `matrix3d` depth layers,
-plus `rotate(±1deg)` story stickers with `0 10px 10px -2.5px rgba(0,0,0,0.3)`):
+## 1. 3D Z-Depth Layered Hero & Tilted Stickers (`marsrejects.com`)
+Recorded from `marsrejects.com` (`perspective: 1200px`, 3 sandwiched Z-layers,
+plus `rotate(±1.2deg)` story stickers with `0 10px 16px -4px rgba(0,0,0,0.32)`):
 
 ```css
 .depth-stage {
@@ -58,10 +58,9 @@ export function initDepthHero(stageEl) {
 
 ---
 
-## 2. 3D Radial Burst Cluster (`discodungeongame.com` `Power Section`)
-Recorded from `discodungeongame.com`'s staggered `power1..power4` cluster
-(`matrix3d(0.49 -> 1.0, ..., -137px..0, -150px..0)`): cards/badges burst
-outward in organic staggered positions instead of boring 2x3 symmetric grids.
+## 2. 3D Radial Burst Cluster (`discodungeongame.com`)
+Cards/badges burst outward from center in organic staggered positions
+(`scale(0.49) -> scale(1)` with `backOut` overshoot) instead of flat 2x3 grids.
 
 ```css
 .burst-cluster { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
@@ -99,8 +98,8 @@ export function initRadialBurst(containerEl) {
 
 ---
 
-## 3. Horizontal Screens Carousel (`discodungeongame.com` `Screens carousel`)
-Recorded `Prev` / `Next` + pagination dot slider with `backOut` spring glide.
+## 3. Horizontal Screens Carousel (`discodungeongame.com`)
+Interactive Prev/Next + pagination dot slider with `backOut` spring glide.
 
 ```js
 export function initScreensCarousel(rootEl) {
@@ -165,10 +164,9 @@ export function initScrollSpine(spineEl, trackerEl) {
 ---
 
 ## 5. Clip-Path Reveals & Pooled Closing Trail (`pos.efisien.id`)
-Recorded `ScrollMotion` (`650ms cubic-bezier(0, 0, 0.2, 1)`, clip-path wipe)
-and `ClosingTrailSection` (`8`-node pool, `100ms` spawn, `1000ms` exit,
-`2200ms` idle auto-spawn). Always keep closing `h2` & CTA buttons at
-`z-index: 5` above trail nodes (`z-index: 1`).
+Recorded `650ms cubic-bezier(0, 0, 0.2, 1)` + `clip-path` wipe reveals and
+`8`-node pooled cursor trail with `2200ms` idle auto-spawn. Keep closing
+headings & CTA buttons at `z-index: 5` above trail nodes (`z-index: 1`).
 
 ```css
 [data-reveal] {

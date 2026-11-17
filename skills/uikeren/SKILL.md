@@ -1,72 +1,68 @@
 ---
 name: uikeren
 description: >-
-  Core anti-slop web builder skill. Activate whenever the user asks—in any
+  Core web craft skill for UI Keren. Activate whenever the user asks—in any
   language—to build, design, or redesign a website, landing page, or interactive
-  web UI. Enforces Liveliness Dials, Purpose-Gate checks, real image generation,
-  Playwright-recorded JS motion from marsrejects.com, discodungeongame.com, and
-  pos.efisien.id, plus a mandatory PASS/FAIL Delivery Gate.
+  web UI. Combines bespoke visual direction, real image generation, recorded
+  JS physics from marsrejects.com, discodungeongame.com, and pos.efisien.id,
+  and a pre-ship quality check.
 ---
 
-# UI Keren — Core Anti-Slop Engine
+# UI Keren — Core Web Craft Engine
 
-> Filter + Direction combined. Removing AI slop leaves a sterile void unless
-> you inject real visual craft and Playwright-recorded interaction physics.
+Load `uikeren-craft`, `uikeren-motion`, and `uikeren-responsive` together with
+this skill on every web build.
 
-Load `uikeren-ui`, `uikeren-motion`, and `uikeren-layoutmobile` together with
-this core skill on every web build.
+## 1. Creative Brief & Intensity Profile (Before Writing Code)
+Write one short brief line in the user's language before coding:
+> `Brief: <jenis web> untuk <audiens>, memadukan <unsur 3 referensi>, profil Visual <1-3> / Variasi <1-3> / Gerak <1-3>.`
 
-## Step 1: Declare Design Read & Liveliness Dials (Before Coding)
-Write one concise Design Read line in the user's language before writing code:
-> `Reading this as: <page kind> for <audience>, blending <reference ingredients>, dial ENERGY <1-3> / RHYTHM <1-3> / MOTION <1-3>.`
-
-| Dial | 1 (Calm) | 2 (Balanced) | 3 (Bold — Default Target) |
+| Dimension | 1 (Subtle) | 2 (Balanced) | 3 (High Craft — Default) |
 | :--- | :--- | :--- | :--- |
-| **ENERGY** | Clean editorial | Editorial + tactile accents | Monumental typography, 3D Z-depth, rich imagery |
-| **RHYTHM** | Predictable | Occasional layout break | Asymmetric, every section changes composition |
-| **MOTION** | Hover only | Scroll-reveal + tabs | Scroll-morph / 3D parallax / carousel / cursor trail |
+| **Visual Punch** | Clean minimal | Editorial + accents | Monumental scale, 3D Z-depth, rich imagery |
+| **Band Contrast** | Consistent | Occasional shift | Every band changes composition & rhythm |
+| **Motion Depth** | Hover states | Reveals + tabs | Depth parallax, radial burst, carousel, trail |
 
-Default target for `uikeren` websites is **ENERGY 3 / RHYTHM 3 / MOTION 3**
-(unless the user asks for a minimal/calm utility).
+Default target for `uikeren` sites is **3 / 3 / 3** unless the user requests
+a calm utility layout.
 
-## Step 2: Written Purpose-Gate (`R-01` to `R-08`)
-Before finalizing your architecture, write a **1-line reason** for each choice
-(no "because AI usually puts it here"):
-- **R-01 Colors**: Any palette is allowed (including user-requested colors); cap
-  active core colors at 2–3 + 1 accent with clear contrast.
-- **R-02 Typography**: Why this display + body font? **FORBIDDEN**: repeating
-  `01 · MONO EYEBROW` + `Instrument Serif` + *italic last word* on every H2.
-- **R-03 Visual Assets (NO `imgs: 0`!)**: If `image-generator` is available,
-  **invoke it first** to generate 2–4 bespoke domain images (hero scene,
-  product/editorial photos). **FORBIDDEN**: replacing real photography/art with
-  flat inline `<svg>` doodles (beans, cups, contour graphs, tiny boxes).
-- **R-04 Section Rhythm (No Repeated Middle Boxes)**: When `RHYTHM = 3`,
-  Sections 2, 3, and 4 MUST use **visibly different compositions**—never stack
-  repeated `[Left Text | Right Dark Rounded Box]` or 2x3 identical card grids.
-- **R-05 Original Blend (Never Clone 1:1)**: Borrow mechanics from all 3
-  references (`marsrejects.com`, `discodungeongame.com`, `pos.efisien.id`),
-  never copying any single site's layout verbatim.
-- **R-06 Single Non-Overlapping Navigation**: Use **either** a top navbar **or**
-  a compact bottom pill (`padding-bottom: 112px` on `footer`)—never stack both
-  and never let a fixed dock cover list rows, buttons, or footer text.
-- **R-07 Real Interactive State**: Every button, tab, carousel, builder, or
-  drawer must work end-to-end (zero dead `href="#"` controls).
-- **R-08 Natural Human Copy**: Zero em-dash (`—`) overuse, zero AI buzzwords
-  (*"Revolutionize"*, *"Seamless"*, *"Elevate"*), zero fake `10K+ Users` stats.
+## 2. Intent Checks (Write a 1-Line Reason Before Coding)
+Every major choice must have a concrete purpose, not an AI habit:
+- **Color Choice**: Any palette is valid (including any color requested by
+  the user); keep active core colors disciplined (2–3 core + 1 accent) with
+  strong contrast.
+- **Type Voice**: Pick a characterful display + body pairing fit for the topic.
+  Never repeat `01 · MONO EYEBROW` + `Instrument Serif` + *italic last word* on
+  every heading.
+- **Real Media (`imgs > 0`)**: If `image-generator` is available, **generate
+  2–4 cohesive images first** (hero scene + product/story shots). Never replace
+  real photography/art with flat inline `<svg>` drawings (coffee beans, cups,
+  contour lines, boxes).
+- **Band Variety**: Sections 2, 3, and 4 must each use **different layouts**—do
+  not stack repeated `[Left Text | Right Dark Rounded Card]` or 2x3 card grids.
+- **Original Synthesis**: Borrow the *mechanics* from `marsrejects.com`,
+  `discodungeongame.com`, and `pos.efisien.id`, re-interpreted for the user's
+  brand—never clone any reference section 1:1.
+- **Single Navigation**: Choose **either** a top navbar **or** a bottom pill
+  (with `padding-bottom: 112px` on `footer`)—never stack both over scrolling
+  content.
+- **Live Controls**: Every button, tab, carousel, builder, or drawer must
+  update real UI state (zero dead controls).
+- **Natural Copy**: Write direct, domain-specific prose in the prompt's
+  language—no buzzwords (*"Revolutionize"*, *"Seamless"*, *"Elevate"*), no
+  invented `10K+` stats, no excessive em dashes (`—`).
 
-## Step 3: Mandatory Delivery Gate (Run BEFORE Delivering)
-Verify every item below; if ANY item fails, fix it first before answering:
-- [ ] **Real Visuals Check**: At least 2–4 real images (`<img>` with
-      `object-cover`) or rich full-bleed `<canvas>` scenes—NOT `imgs: 0` with
-      only flat SVG diagrams.
-- [ ] **AI Tell Scan (`uikeren-ui`)**: No pill eyebrow with pulsing dot above H1,
-      no 2x3 copy-paste feature cards, no decorative background grid lines, no
-      pill-shaped everything.
-- [ ] **Section Variety Check**: Section 1, 2, 3, and 4 each have distinct
-      structure (e.g., 3D Z-depth hero -> horizontal Screens Carousel -> 3D
-      Radial Cluster / interactive builder -> closing trail).
-- [ ] **Motion Check (`uikeren-motion`)**: At least 3 recorded JS interactions
-      active & tested, with `prefers-reduced-motion: reduce` support.
-- [ ] **Mobile & Overlap Check (`uikeren-layoutmobile`)**: Tested at desktop
-      (`1440px`) and mobile (`375px`), zero horizontal overflow, zero fixed dock
-      or trail stamp covering text/buttons, zero console errors.
+## 3. Pre-Ship Verification (Run Before Answering)
+Do not deliver until every check passes:
+- [ ] **Real Images Present**: At least 2–4 real `<img>` visuals (`object-cover`)
+      or rich full-bleed `<canvas>` scenes—no `imgs: 0` with flat SVG doodles.
+- [ ] **Visual Filter (`uikeren-craft`)**: Zero pulsing status-dot pills above
+      H1, zero 2x3 copy-paste card grids, zero decorative background grid lines,
+      zero uniform pill-everything styling.
+- [ ] **Distinct Middle Bands**: Hero, Band 2, Band 3, and Closing each look
+      structurally distinct.
+- [ ] **Active JS Mechanics (`uikeren-motion`)**: At least 3 recorded motion
+      or interactive behaviors wired & tested, honoring `prefers-reduced-motion`.
+- [ ] **Responsive & Clean (`uikeren-responsive`)**: Verified at desktop
+      (`1440px`) and mobile (`375px`) with zero horizontal scroll, zero dock
+      or trail overlap on text/buttons, and zero console errors.

@@ -1,11 +1,17 @@
 <EXTREMELY_IMPORTANT>
-You use UI Keren (`uikeren`): a reference-driven anti-slop frontend system that blends the craft recorded from `marsrejects.com`, `discodungeongame.com`, and `pos.efisien.id` with strict anti-AI-slop enforcement.
+You use UI Keren (`uikeren`): a reference-driven web craft plugin blending the
+visual depth and JS interaction physics recorded from `marsrejects.com`,
+`discodungeongame.com`, and `pos.efisien.id`.
 
-Whenever the user asks—in **any language**—to build, design, or redesign a website, landing page, web UI, or interactive frontend:
-1. Read and follow ALL four skills in this plugin before writing code:
-   - Core Engine & Delivery Gate: `skills/uikeren/SKILL.md`
-   - Visual & Anti-Slop Tells: `skills/uikeren-ui/SKILL.md`
-   - Playwright-Recorded JS Motion: `skills/uikeren-motion/SKILL.md`
-   - Mobile & Responsive Reflow: `skills/uikeren-layoutmobile/SKILL.md`
-2. Declare your **Design Read + Liveliness Dials** and **Written Purpose Reasons** before coding, generate real imagery via `image-generator` when available (never ship `imgs: 0` with fake SVG doodles), and run the **PASS/FAIL Delivery Gate** before finishing.
+Whenever the user asks—in **any language**—to build, design, or redesign a
+website, landing page, or web UI:
+1. Read and apply ALL four skills in this plugin before writing code:
+   - Core workflow & Pre-Ship Check: `skills/uikeren/SKILL.md`
+   - Visual Craft & Pattern Filter: `skills/uikeren-craft/SKILL.md`
+   - Recorded JS Motion Recipes: `skills/uikeren-motion/SKILL.md`
+   - Responsive Reflow & Safe Spacing: `skills/uikeren-responsive/SKILL.md`
+2. State your **Creative Brief + Intensity Profile**, generate real bespoke
+   images via `image-generator` when available (never ship `imgs: 0` with flat
+   SVG doodles), and pass every item in **Pre-Ship Verification** before
+   finishing.
 </EXTREMELY_IMPORTANT>
