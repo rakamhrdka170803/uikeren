@@ -1,54 +1,59 @@
 # Recorded Design & Layout DNA (3 Reference Sites)
 
 Recorded via headless Chrome/Playwright inspection of `pos.efisien.id`,
-`marsrejects.com`, and `discodungeongame.com`. **Re-interpret and blend their
-principles originally**—never clone any single section 1:1 ("plek ketiplek").
+`marsrejects.com`, and `discodungeongame.com`. **Blend and re-interpret their
+craft equally and originally**—never default to `pos.efisien.id` alone and
+never repeat `[Left List | Right Dark Rounded Card]` across middle sections.
 
 ---
 
-## What to Take from Each Reference (Principle, Not Literal Clone)
-
-1. **From `pos.efisien.id` — Full-Bleed Cinema & Scroll Transitions**:
-   - **Principle**: Full-bleed `100vh` atmospheric opening with bold serif+sans
-     scale contrast (`~74px` display vs `16px` body), alternating clean light
-     and deep dark bands, scroll-triggered morphing/clip-path reveals, and a
-     pooled closing cursor trail.
-   - **Original Re-interpretation**: Do NOT copy the exact centered 1-landscape
-     + 2-flanking-square photo trio in a dark void. Instead, build domain-native
-     compositions (e.g., asymmetric staggered photo stack + interactive story
-     tabs, or full-bleed split showcase with live tasting/product controls).
-
-2. **From `marsrejects.com` — Z-Index Depth, Stickers & Hairline Editorial**:
-   - **Principle**: Oversized display typography layered **behind** a
-     foreground subject (`z-index`), tilted caption stickers overlapping visual
-     frames, and crisp `1px` hairline-divided rows.
-   - **Original Re-interpretation**: Never drop bare hairline rows alone across
-     a whole viewport (that looks like an empty text list). Pair hairline rows
-     with a **sticky live visual preview card** (photo + live specs + add/build
-     action) on the opposite column, and if using a floating dock, do **not**
-     also clutter the page with a competing sticky top bar that traps text.
-
-3. **From `discodungeongame.com` — Continuous Journey & Interactive Stage**:
-   - **Principle**: A persistent visual thread/scroll-spine connecting sections,
-     plus a realistic framed interactive device/builder alongside concise copy
-     with `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) micro-physics.
-   - **Original Re-interpretation**: Turn the framed UI into something real for
-     the user's topic (a live bakpao box builder, live pour-over/brew timer,
-     live POS simulator, or mini playable canvas).
+## Core Visual Rule: Real Bespoke Imagery Over Flat SVG Placeholders
+Every one of the 3 reference sites feels real because it uses **dense real
+imagery/artwork** (`65` photos + `9` videos on `pos.efisien.id`, `106` artworks
+on `marsrejects.com`, `92` images + `3` videos on `discodungeongame.com`)—NOT
+inline `<svg>` doodles inside dark rounded boxes.
+- **When `image-generator` is available**: Invoke it early to generate 2–4
+  cohesive, art-directed images (1 hero visual + 2–3 product/editorial shots)
+  matched to your palette and subject.
+- **When no image tool exists**: Use rich multi-layered HTML5 `<canvas>` scenes
+  or crisp photographic/editorial UI mockups—never flat SVG drawings of
+  cups/boxes/contours.
 
 ---
 
-## Visual Balance Rule Across ALL Sections (Top -> Middle -> Bottom)
-- **Section 1 (Hero)**: Full-bleed visual drama (`100vh` photo/art/canvas +
-  monumental type).
-- **Sections 2 & 3 (Middle — Where AI Usually Gets Boring!)**:
-  - Never just pill tabs + plain text rows!
-  - Combine **interactive controls + visual preview** in an asymmetric layout
-    (e.g., `55%` interactive hairline menu/builder + `45%` sticky photo/live
-    preview card that swaps image & details on hover/click), or bento visual
-    storytelling with overlapping stickers.
-- **Section 4+ (Showcase & Closing)**: Deep contrast band with an **original**
-  interactive gallery/showcase (not a 1:1 copy of a reference) + `ClosingTrail`
-  finale.
-- **Colors**: Use any palette the user requests or that fits the domain—never
-  ban colors.
+## Balanced Ingredients From All 3 Sites (Mix Across Sections!)
+
+1. **From `marsrejects.com` (`1440x900` 3D Layered Depth)**:
+   - **3-Layer Z-Depth Hero**: Rear character/product row -> Monumental wide
+     display headline (`clamp(3.5rem, 9vw, 6.5rem)`) **behind** foreground art ->
+     Foreground visual layer with subtle pointer parallax.
+   - **Tilted Sticker Captions + Hairline Rows**: Rotated stamp badges over
+     full-bleed artwork panels + ultra-clean `1px` horizontal dividers.
+   - **Expandable Compact Bottom Pill**: Only if there is NO top navbar, with
+     generous `padding-bottom: 104px` on `footer` so it never covers text.
+
+2. **From `discodungeongame.com` (`1440px` Kinetic Stage)**:
+   - **Horizontal Screens Carousel (`initScreensCarousel`)**: Interactive
+     Prev/Next + dot pagination showcase with tall `object-cover` showcase
+     cards gliding horizontally.
+   - **3D Radial Burst Feature Cluster (`initRadialBurst`)**: Features/icons
+     that burst outward in 3D from center when scrolled into view—replacing
+     boring 2-column text tables in middle sections!
+   - **Scroll-Spine Journey (`initScrollSpine`)** + `backOut` overshoot
+     (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`).
+
+3. **From `pos.efisien.id` (`1440px` Editorial Rhythm)**:
+   - **Full-Bleed Hero & Alternating Contrast Bands**: Crisp light bands
+     (`#FFFFFF` / `#F7F6F5`) alternating with dark sections, `650ms`
+     `clip-path` reveals (`ScrollMotion`), and pooled `ClosingTrailSection`
+     kept behind/clear of CTA buttons.
+
+---
+
+## Typography Guidance (Avoid the Single-Font AI Rut)
+Do **not** default every project to `Instrument Serif` + italic last word +
+`01 · MONO EYEBROW`. Pick a fresh pairing per domain:
+- **Bold Modern Editorial**: `Bricolage Grotesque` or `Syne` display + `Plus Jakarta Sans` body
+- **High-Impact Wide / Arcade / Street**: `Archivo Black` or `Space Grotesk` display + `Inter Tight` body
+- **Warm Craft Serif (without italic-last-word cliché)**: `Fraunces` or `Playfair Display` + `DM Sans` body
+- Use **any color palette** requested by the user or suited to the domain.

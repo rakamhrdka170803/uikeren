@@ -1,37 +1,41 @@
-# Anti-AI-Slop Checklist (Layout, Overlap & Originality)
+# Anti-AI-Slop Checklist (Visuals, Typography & Layout)
 
 **Note on Colors:** Never ban any color palette. Any color requested by the
-user or suited to the brand is welcome.
+user or suited to the domain is welcome.
 
-Reject and fix immediately if your site has any of these failures:
+Reject and rebuild if ANY of these AI-slop patterns appear:
 
-## 1. Navigation & Overlap Bugs
-- [ ] **NEVER stack BOTH a full sticky top navbar AND a fixed floating bottom
-      dock** that covers scrolling text/rows. Choose **one** primary navigation
-      anchor (or keep the bottom dock compact and ensure `padding-bottom` /
-      auto-hide prevents any overlap with list items or CTAs).
+## 1. Banned "AI Editorial" Heading & Section Repetition
+- [ ] **BAN the `01 · MONO EYEBROW` + `Instrument Serif` + *Italic Last Word* Formula**:
+      Do NOT repeat `01 · SECTION LABEL` + `Heading With *Italic Word*` on
+      every band. Vary typographic voice, alignment, and font pairings
+      (`Syne`, `Bricolage Grotesque`, `Fraunces`, `Space Grotesk`, `Poppins`,
+      `Archivo`, `Plus Jakarta Sans`, `Inter Tight`).
+- [ ] **BAN Back-to-Back `[Left Text | Right Dark Rounded Box]` Sections**:
+      Never stack Section 2, Section 3, and Section 4 as the exact same
+      2-column grid with dark `rounded-3xl` cards on the right. Alternate
+      full-bleed edge-to-edge bands, horizontal carousels, checkerboard/bento
+      photo mosaics, and interactive workspaces.
 
-## 2. Dry "Text-Only AI Menu/Tab" Middle Sections
-- [ ] **BAN bare text-only tab + hairline-row walls**: Do NOT fill a whole
-      section (`Menu Harian`, `Features`, `Specs`) with only pill tabs + flat
-      numbered text rows (`01 ... Rp 24.000 [+ Tambah]`) and zero visual weight.
-- [ ] Always anchor middle sections visually: pair hairline rows with a
-      **sticky live visual preview / interactive customizer panel**, rich
-      photography/artwork, or asymmetric editorial media so no viewport band
-      feels like a plain text table.
+## 2. Banned Flat SVG Diagrams Pretending to Be Photography/Art
+- [ ] **NEVER replace real hero/product visuals with flat dark SVG diagrams or
+      tiny 24–48px icons**. Look at how fake a site feels when every visual
+      slot is an inline `<svg>` drawing of a cup, contour lines, or box.
+- [ ] If the `image-generator` subagent is available, **ALWAYS generate 2–4
+      bespoke, domain-authentic images** (hero visual, product/showcase
+      frames, editorial scene) and render them full-bleed with `object-cover`.
 
-## 3. "Plek Ketiplek" (1:1 Reference Clone) Slop
-- [ ] **Steal the physics & craft, NOT the literal layout clone**: Never copy
-      a reference section verbatim (e.g., cloning `pos.efisien.id`'s exact
-      dark centered card flanked by two square photo cards, or `marsrejects`'s
-      exact 5-circle bottom bar). Re-interpret the mechanic for the user's
-      brand so it feels original.
+## 3. Navigation, Overlap & Trail Collisions
+- [ ] **NEVER use both a top header bar AND a fixed floating bottom dock**.
+      Pick one navigation pattern. If using a fixed bottom dock, add
+      `padding-bottom: 104px` to `footer` and ensure the dock never covers rows,
+      buttons, or footer text.
+- [ ] **Keep `ClosingTrail` behind/around the CTA safe-zone**: Give the closing
+      heading & CTA buttons higher `z-index` with clean contrast so floating
+      trail stamps never obscure button labels.
 
-## 4. Hero & Visual Placeholder Slop
-- [ ] **BAN the Default 50/50 AI Split Hero**: `[pill + H1 + desc + 2 btns + 3 stats]`
-      on the left and `[2x3 grid of tiny cards]` on the right.
-- [ ] **NEVER use tiny 24px–48px inline SVGs inside empty boxes** as hero or
-      card art. Use bespoke generated images (`image-generator` if available),
-      rich HTML5 `<canvas>` scenes, or detailed interactive UI previews.
-- [ ] **No dead buttons or cliché AI copy** (*"Revolutionize"*, *"Seamless"*,
-      *"Unleash"*, *"Elevate"*).
+## 4. Originality & Interaction Guardrails
+- [ ] **No 1:1 Reference Clones ("Plek Ketiplek")**: Re-interpret the physics
+      and rhythm of `pos.efisien.id`, `marsrejects.com`, and
+      `discodungeongame.com`—never copy a section's exact geometry verbatim.
+- [ ] **No 50/50 AI Split Box Hero**, no dead buttons, no cliché AI filler copy.
