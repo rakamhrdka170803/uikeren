@@ -1,0 +1,9 @@
+{
+  "name": "uikeren",
+  "displayName": "UI Keren — Anti-Slop Interactive Web",
+  "version": "1.0.0",
+  "description": "Anti-slop web builder plugin with bespoke art direction and recorded JS interaction recipes inspired by high-craft interactive sites.",
+  "author": "rakamhrdka170803",
+  "repository": "https://github.com/rakamhrdka170803/uikeren",
+  "logo": "assets/logo.svg"
+}
