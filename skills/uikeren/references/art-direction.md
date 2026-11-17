@@ -1,70 +1,54 @@
 # Recorded Design & Layout DNA (3 Reference Sites)
 
 Recorded via headless Chrome/Playwright inspection of `pos.efisien.id`,
-`marsrejects.com`, and `discodungeongame.com`. **Blend the best ingredients from
-all three** and adapt the theme, copy, and colors (including any user-requested
-colors) authentically to the prompt's domain.
+`marsrejects.com`, and `discodungeongame.com`. **Re-interpret and blend their
+principles originally**—never clone any single section 1:1 ("plek ketiplek").
 
 ---
 
-## Reference 1: `pos.efisien.id` — Full-Bleed Photo/Video + Editorial Rhythm
-Observed layout & metrics (`1440px` desktop):
-- **Hero (`1440x1440` scroll runway)**: Full-bleed atmospheric photograph/video
-  filling 100% of the viewport, transparent top nav (`64px`), centered `74px`
-  serif display headline (`Exact Block` style, `line-height: 1.02`,
-  `letter-spacing: -0.02em`), crisp pill CTA buttons, and a subtle bottom
-  category strip. On scroll, the hero shrinks into a staggered **checkerboard
-  photo mosaic** (`HeroMosaicMorph`).
-- **Band Rhythm**: Alternates crisp clean light bands (`#FFFFFF` / `#F7F6F5`)
-  with deep dark bands (`#000000`). Uses large full-bleed `object-cover` photo
-  cards with clean overlay typography (no thick cartoon borders) and an
-  interactive tabbed explorer.
-- **Closing Band**: Dark full-width CTA section (`~520px` tall) with a pooled
-  cursor-following + idle ambient trail (`ClosingTrailSection`).
+## What to Take from Each Reference (Principle, Not Literal Clone)
 
-## Reference 2: `marsrejects.com` — Layered Depth, Text-Behind-Subject & Hairline Rows
-Observed layout & metrics (`1440px` desktop):
-- **Hero (`1440x900`)**: Monumental wide display typography (`88px`, `line-height: 0.8`)
-  **layered BEHIND** foreground illustrated subjects (`z-index` depth), flanked
-  by subtle vertical micro-telemetry marks on the outer screen edges.
-- **Floating Bottom Dock**: Compact centered pill/circle action dock pinned
-  near the bottom (`position: fixed; bottom: 20px`) instead of bulky top/footer
-  clutter.
-- **Story Cards + Tilted Stickers**: Full-bleed vertical artwork panels with
-  slightly rotated editorial/comic caption stickers (`transform: rotate(-2deg)`)
-  overlapping the frame edges.
-- **Hairline Editorial List**: Clean benefits/menu/specs rows separated by thin
-  `1px` horizontal rules (`border-bottom: 1px solid`) with generous breathing
-  room—zero boxy card borders.
+1. **From `pos.efisien.id` — Full-Bleed Cinema & Scroll Transitions**:
+   - **Principle**: Full-bleed `100vh` atmospheric opening with bold serif+sans
+     scale contrast (`~74px` display vs `16px` body), alternating clean light
+     and deep dark bands, scroll-triggered morphing/clip-path reveals, and a
+     pooled closing cursor trail.
+   - **Original Re-interpretation**: Do NOT copy the exact centered 1-landscape
+     + 2-flanking-square photo trio in a dark void. Instead, build domain-native
+     compositions (e.g., asymmetric staggered photo stack + interactive story
+     tabs, or full-bleed split showcase with live tasting/product controls).
 
-## Reference 3: `discodungeongame.com` — Scroll-Spine Journey & Tactile Showcase
-Observed layout & metrics (`1440px` desktop):
-- **Atmospheric Stage (`765px` hero)**: Centered custom emblem/title over a
-  deep atmospheric scene (`92` images + `3` videos across the page), clean
-  minimalist top nav (`5` links + `1` accent CTA).
-- **Vertical Scroll Spine**: A central glowing column/motif (`ScrollSpine`)
-  runs continuously down the dark sections so scrolling feels like descending
-  through a cohesive world.
-- **Asymmetric Device/UI Showcase**: Clean `55px` headline + short paragraph on
-  one side paired with a tall interactive device/frame mockup + dot carousel on
-  the other, powered by Framer `backOut` overshoot physics.
+2. **From `marsrejects.com` — Z-Index Depth, Stickers & Hairline Editorial**:
+   - **Principle**: Oversized display typography layered **behind** a
+     foreground subject (`z-index`), tilted caption stickers overlapping visual
+     frames, and crisp `1px` hairline-divided rows.
+   - **Original Re-interpretation**: Never drop bare hairline rows alone across
+     a whole viewport (that looks like an empty text list). Pair hairline rows
+     with a **sticky live visual preview card** (photo + live specs + add/build
+     action) on the opposite column, and if using a floating dock, do **not**
+     also clutter the page with a competing sticky top bar that traps text.
+
+3. **From `discodungeongame.com` — Continuous Journey & Interactive Stage**:
+   - **Principle**: A persistent visual thread/scroll-spine connecting sections,
+     plus a realistic framed interactive device/builder alongside concise copy
+     with `backOut` (`cubic-bezier(0.33, 1.53, 0.69, 0.99)`) micro-physics.
+   - **Original Re-interpretation**: Turn the framed UI into something real for
+     the user's topic (a live bakpao box builder, live pour-over/brew timer,
+     live POS simulator, or mini playable canvas).
 
 ---
 
-## How to Blend Them for Any Prompt (e.g., Bakpao, Coffee Shop, SaaS, Game)
-Pick **one hero style** + **2–3 section patterns** from above:
-- **Example Blend A (Culinary / Bakpao / Coffee Shop)**:
-  - Full-bleed `100vh` atmospheric hero (generated/real food photography or rich
-    full-bleed interactive canvas) with `pos.efisien.id`-style `74px` serif
-    headline + `marsrejects`-style **floating bottom action/cart dock**.
-  - `HeroMosaicMorph` scroll transition into flavor/story photo tiles.
-  - Interactive menu/box builder inside an editorial **hairline list** +
-    clean `discodungeongame`-style live preview frame + `ClosingTrailSection`.
-- **Example Blend B (Creative / Game / Collectible)**:
-  - `marsrejects`-style **text-behind-subject hero** (`88px` wide display
-    behind foreground artwork/canvas) + floating bottom dock.
-  - `discodungeongame`-style **vertical scroll-spine** connecting dark
-    atmospheric feature bands + interactive device/playable showcase.
-- **Color Rule**: Use whatever palette fits the domain or whatever colors the
-  user explicitly asks for—let typography scale, full-bleed visuals, layering,
-  and whitespace carry the craft.
+## Visual Balance Rule Across ALL Sections (Top -> Middle -> Bottom)
+- **Section 1 (Hero)**: Full-bleed visual drama (`100vh` photo/art/canvas +
+  monumental type).
+- **Sections 2 & 3 (Middle — Where AI Usually Gets Boring!)**:
+  - Never just pill tabs + plain text rows!
+  - Combine **interactive controls + visual preview** in an asymmetric layout
+    (e.g., `55%` interactive hairline menu/builder + `45%` sticky photo/live
+    preview card that swaps image & details on hover/click), or bento visual
+    storytelling with overlapping stickers.
+- **Section 4+ (Showcase & Closing)**: Deep contrast band with an **original**
+  interactive gallery/showcase (not a 1:1 copy of a reference) + `ClosingTrail`
+  finale.
+- **Colors**: Use any palette the user requests or that fits the domain—never
+  ban colors.
