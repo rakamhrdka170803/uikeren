@@ -19,9 +19,10 @@ intent, never just shrink desktop proportions.
   sizes on narrow `375px` viewports.
 - **Dynamic Viewport Heights**: Prefer `min-height: 85dvh` or `auto` on mobile
   so browser address bars do not clip hero CTAs.
-- **Safe Bottom Dock Clearance**: When using a fixed bottom pill, reserve
-  `padding-bottom: 112px` on `footer` and `scroll-padding-bottom: 96px` on
-  `html` so fixed navigation never covers links or list rows.
+- **Zero Bottom-Dock Content Collision**: Avoid wide fixed bottom bars that
+  cover middle-section tabs, calculators, or footer links. Prefer a clean top
+  bar OR a compact `<= 54px` floating trigger button with `padding-bottom: 96px`
+  on `footer`.
 - **Touch & Tap Parity**: Minimum `44x44px` hit target on controls; every hover
   preview must also work on click/tap.
 - **Zero Horizontal Scroll**: Verify `scrollWidth <= innerWidth` at `375px` and

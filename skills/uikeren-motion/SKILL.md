@@ -3,21 +3,23 @@ name: uikeren-motion
 description: >-
   Playwright-recorded JS and CSS interaction recipes for UI Keren, extracted
   from marsrejects.com, discodungeongame.com, and pos.efisien.id (3D Z-depth
-  parallax, radial burst clusters, screens carousel, scroll-spine, clip-path
-  reveals, and pooled cursor trail).
+  parallax, collapsible bottom menu trigger, radial burst clusters, screens
+  carousel, scroll-spine, clip-path reveals, and safe-zone cursor trail).
 ---
 
 # UI Keren — Recorded JS Motion Recipes
 
-Use with `uikeren/SKILL.md`. Blend mechanics across **all 3 reference sites**
-rather than leaning on `pos.efisien.id` alone. Always respect
+Use with `uikeren/SKILL.md`. Lead with **`marsrejects.com`** and
+**`discodungeongame.com`** mechanics just as often as `pos.efisien.id`, so
+builds never look like `pos.efisien.id` clones. Always guard animations with
 `prefers-reduced-motion: reduce`.
 
 ---
 
-## 1. 3D Z-Depth Layered Hero & Tilted Stickers (`marsrejects.com`)
+## 1. 3D Z-Depth Sandwiched Hero & Compact Expandable Trigger (`marsrejects.com`)
 Recorded from `marsrejects.com` (`perspective: 1200px`, 3 sandwiched Z-layers,
-plus `rotate(±1.2deg)` story stickers with `0 10px 16px -4px rgba(0,0,0,0.32)`):
+`rotate(±1deg)` caption stickers with `0 10px 16px -4px rgba(0,0,0,0.32)`, and
+a compact circular `menu / close` trigger instead of a wide blocking bar):
 
 ```css
 .depth-stage {
@@ -34,6 +36,10 @@ plus `rotate(±1.2deg)` story stickers with `0 10px 16px -4px rgba(0,0,0,0.32)`)
 .tilted-sticker {
   transform: rotate(var(--tilt, -1.2deg));
   box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25), 0 10px 16px -4px rgba(0,0,0,0.32);
+}
+.compact-dock-btn {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 60; width: 54px; height: 54px; border-radius: 999px;
 }
 ```
 
@@ -163,10 +169,11 @@ export function initScrollSpine(spineEl, trackerEl) {
 
 ---
 
-## 5. Clip-Path Reveals & Pooled Closing Trail (`pos.efisien.id`)
-Recorded `650ms cubic-bezier(0, 0, 0.2, 1)` + `clip-path` wipe reveals and
-`8`-node pooled cursor trail with `2200ms` idle auto-spawn. Keep closing
-headings & CTA buttons at `z-index: 5` above trail nodes (`z-index: 1`).
+## 5. Clip-Path Reveals & Optional Safe-Zone Trail (`pos.efisien.id`)
+Use `initScrollMotion` across bands, and use `initClosingTrail` **only as one
+optional closing choice** (never default to it on every site). When used,
+keep a safe-zone clear around the central `h2`/paragraph/buttons so stamps
+never overlap readable copy!
 
 ```css
 [data-reveal] {
@@ -239,6 +246,8 @@ export function initClosingTrail(sectionEl, renderItem) {
   sectionEl.addEventListener('pointermove', (e) => {
     const r = sectionEl.getBoundingClientRect();
     const x = e.clientX - r.left, y = e.clientY - r.top;
+    // Skip central text/CTA safe-zone so trail stamps stay on the flanks
+    if (x > r.width * 0.24 && x < r.width * 0.76 && y > r.height * 0.18 && y < r.height * 0.82) return;
     lastMoveAt = Date.now();
     if (!hasPoint || Math.hypot(x - lastX, y - lastY) >= 72) {
       hasPoint = true; lastX = x; lastY = y;
@@ -250,7 +259,9 @@ export function initClosingTrail(sectionEl, renderItem) {
   setInterval(() => {
     if (!inView || window.innerWidth < 768 || Date.now() - lastMoveAt < 2200) return;
     const r = sectionEl.getBoundingClientRect();
-    spawn(r.width * (0.18 + Math.random() * 0.64), r.height * (0.22 + Math.random() * 0.56));
+    const leftSide = Math.random() < 0.5;
+    const x = leftSide ? r.width * (0.08 + Math.random() * 0.14) : r.width * (0.78 + Math.random() * 0.14);
+    spawn(x, r.height * (0.2 + Math.random() * 0.6));
   }, 950);
 }
 ```

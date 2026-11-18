@@ -2,78 +2,80 @@
 name: uikeren-craft
 description: >-
   Visual craft and anti-generic-template filter for UI Keren. Spots common
-  AI-generated patterns (eyebrow dot pills, 2x3 identical cards, background
-  grids, flat SVG doodles, repeated dark cards) and replaces them with rich
-  visuals—without restricting any color palette.
+  AI-generated patterns (autopilot cream+terracotta defaults, eyebrow dot pills,
+  2x3 identical cards, background grids, flat SVG doodles, overlapping wide
+  bottom docks) and replaces them with rich visuals—without banning any color.
 ---
 
 # UI Keren — Visual Craft & Pattern Filter
 
-Use with `uikeren/SKILL.md`. **Never restrict colors**—any palette requested
-by the user or suited to the topic is welcome. Focus strictly on eliminating
-lazy structural and visual clichés.
+Use with `uikeren/SKILL.md`. **Never ban any color**—if the user asks for
+cream, orange, purple, or anything else, honor it. What we reject is **lazy AI
+autopilot defaults** and **layout collisions**.
 
-## Visual & Asset Patterns
+## Visual, Color & Asset Patterns
 
-### 1. Flat SVG Doodles Instead of Real Media (`imgs: 0`)
+### 1. Autopilot "AI Culinary/SaaS" Color Habits (Deprioritize, Don't Ban)
+- **AI Pattern:** Reaching on autopilot for `warm cream (#FAF5EC) + dark brown
+  + terracotta/crimson (#D83A22)` on every food/cafe site, or `dark slate +
+  purple/blue glow` on every tech site, even when the user didn't ask for it.
+- **Issue:** Makes completely different projects look like the same AI model
+  template.
+- **Replacement:** Unless the user requests those colors, deliberately pick a
+  fresher palette first (e.g., deep tea-jade + porcelain + chili, midnight navy
+  + electric coral + off-white, cobalt + bone + brass, charcoal + sage + cream,
+  obsidian + cyan/pink).
+
+### 2. Flat SVG Doodles Instead of Real Media (`imgs: 0`)
 - **AI Pattern:** Inline `<svg>` sketches (beans, cups, contour graphs, boxes)
   inside dark rounded boxes taking the place of photography or artwork.
-- **Issue:** Immediately signals that the page has zero real visual assets.
+- **Issue:** Immediately signals zero real visual assets.
 - **Replacement:** Generate 2–4 tailored images via `image-generator` and
-  display them edge-to-edge (`object-cover`), or build rich full-frame HTML5
-  `<canvas>` scenes.
+  display them edge-to-edge (`object-cover`), or build rich full-frame `<canvas>`
+  scenes.
 
-### 2. Status-Dot Pill Parked Above the Headline
-- **AI Pattern:** A rounded pill (`• Batch #48 · Fresh`) with a glowing or
-  pulsing dot floating directly above the main `H1`.
-- **Issue:** Overused AI template badge imitating a live indicator when nothing
-  is actually live.
-- **Replacement:** Drop the decorative dot pill. Fold essential context into
-  subtle top/edge metadata or directly into the hero copy.
-
-### 3. Decorative Graph-Paper / Background Grids
-- **AI Pattern:** Repeating faint square grids (`linear-gradient`) behind
-  sections or charts with no functional purpose.
-- **Issue:** Cheap visual filler trying to make empty boxes look technical.
-- **Replacement:** Use clean contrast planes, subtle grain, or real imagery.
+### 3. Status-Dot Pill & Eyebrow Above the Headline
+- **AI Pattern:** A rounded pill (`• Batch #48 · Fresh`) or uppercase eyebrow
+  parked directly above a centered H1.
+- **Issue:** Textbook AI template ornament.
+- **Replacement:** Drop the decorative dot pill. Fold context cleanly into
+  top/edge metadata or directly into the copy.
 
 ### 4. Repetitive `01 · MONO` + `Instrument Serif` + *Italic Accent* Headings
-- **AI Pattern:** Repeating `01 · SUBTITLE` above `Instrument Serif` with the
-  last word italicized on every single section heading.
-- **Issue:** Repeating one typographic gimmick across 4–5 sections turns an
-  editorial style into an obvious template.
+- **AI Pattern:** Repeating `01 · SUBTITLE` above serif headings with the last
+  word italicized on every single band.
+- **Issue:** Turns an editorial look into an obvious mechanical pattern.
 - **Replacement:** Vary heading treatments and select font pairings matched to
   the domain (`Syne`, `Bricolage Grotesque`, `Archivo Black`, `Fraunces`,
   `Poppins`, `Space Grotesk`, `DM Sans`).
 
-### 5. Uniform Pill Radii Everywhere
-- **AI Pattern:** Making every button, filter tab, tag, badge, and dock a
-  `9999px` capsule.
-- **Issue:** Destroys visual distinction between primary CTAs, tabs, and tags.
-- **Replacement:** Use 2–3 deliberate radius steps (e.g., `0–4px` editorial
-  lines, `16–20px` media frames, and capsule reserved for primary actions).
+## Layout, Reference Balance & Collision Patterns
 
-## Layout & Rhythm Patterns
+### 5. Over-Leaning on `pos.efisien.id` Closing Trail & Hero
+- **AI Pattern:** Always building a centered dark-photo hero + 2 bottom-corner
+  floating cards + a bright red/orange full-width closing band with floating
+  photo stamps (`ClosingTrail`).
+- **Issue:** Makes every site look like a clone of `pos.efisien.id` instead of
+  blending `marsrejects.com` and `discodungeongame.com`.
+- **Replacement:** Alternate hero and closing patterns across builds: use
+  `marsrejects.com`'s **3D Text-Behind-Subject hero** and **full-bleed artwork
+  + clean dark horizon footer**, or `discodungeongame.com`'s **Scroll-Spine
+  stage** + **subscribe/action horizon footer**. If using `ClosingTrail`, keep
+  trail stamps strictly outside the centered text/CTA safe zone so they never
+  overlap paragraph copy.
 
-### 6. Copy-Paste 2x3 / 3-Column Feature Cards
-- **AI Pattern:** Six identical bordered cards (`AIR · 75 PPM`, `BURR · 64 MM`,
-  etc.) all using the same mono tag + bold title + 2-line blurb.
-- **Issue:** Flattens content hierarchy into template filler.
-- **Replacement:** Use a staggered **3D Radial Burst Cluster** (`initRadialBurst`),
-  a **Horizontal Screens Carousel** (`initScreensCarousel`), or clean
-  **Hairline Editorial Rows** (`border-bottom: 1px`).
+### 6. Wide Fixed Bottom Dock Eating Middle Content
+- **AI Pattern:** A `400px`-wide `position: fixed; bottom: 20px` dark capsule
+  bar sitting over tabs, calculators, menu rows, and footer links as you scroll.
+- **Issue:** Actively blocks interactive buttons and text in middle bands.
+- **Replacement:** Use a clean top navbar **OR** a compact circular floating
+  menu trigger (`<= 56px`, `marsrejects`-style) that expands only on click—never
+  a wide floating pill bar blocking middle-section controls.
 
-### 7. Stacked `[Left Text | Right Dark Rounded Card]` Bands
-- **AI Pattern:** Sections 2, 3, and 4 all structured as a 2-column split with
-  a dark rounded widget box on the right.
-- **Issue:** Middle sections feel monotonous and mechanically generated.
-- **Replacement:** Alternate full-bleed bands, horizontal carousels, tilted
-  editorial stickers, and one dedicated interactive workspace.
-
-### 8. Fixed Dock & Trail Overlap
-- **AI Pattern:** A floating bottom dock covering rows or footer text, or
-  cursor trail stickers spawning on top of CTA button labels.
-- **Issue:** Broken interactive layering.
-- **Replacement:** Keep one navigation system only (reserve `padding-bottom: 112px`
-  on `footer` if using a bottom dock), and keep CTA text/buttons at `z-index: 5`
-  above trail elements (`z-index: 1`).
+### 7. Copy-Paste 2x3 Cards & Repeated Dark Split Boxes
+- **AI Pattern:** Six identical bordered cards or repeated `[Left Text | Right
+  Dark Card]` sections.
+- **Issue:** Monotonous middle sections.
+- **Replacement:** Mix a staggered **3D Radial Burst Cluster** (`initRadialBurst`),
+  a **Horizontal Screens Carousel** (`initScreensCarousel`), **Tilted Story
+  Stickers**, and **Hairline Rows** (`border-bottom: 1px`).
