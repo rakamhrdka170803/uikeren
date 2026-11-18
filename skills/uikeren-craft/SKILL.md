@@ -1,81 +1,66 @@
 ---
 name: uikeren-craft
 description: >-
-  Visual craft and anti-generic-template filter for UI Keren. Spots common
-  AI-generated patterns (autopilot cream+terracotta defaults, eyebrow dot pills,
-  2x3 identical cards, background grids, flat SVG doodles, overlapping wide
-  bottom docks) and replaces them with rich visuals—without banning any color.
+  Visual craft, concise copy, SEO hygiene, and anti-AI-template filter for UI
+  Keren. Eliminates text-only pastel-pill card grids, wordy AI descriptions,
+  cartoonish vector hero illustrations, autopilot palettes, and overlapping
+  floating buttons.
 ---
 
-# UI Keren — Visual Craft & Pattern Filter
+# UI Keren — Visual Craft, Copy & Pattern Filter
 
-Use with `uikeren/SKILL.md`. **Never ban any color**—if the user asks for
-cream, orange, purple, or anything else, honor it. What we reject is **lazy AI
-autopilot defaults** and **layout collisions**.
+Use with `uikeren/SKILL.md`. Never ban colors—deprioritize AI autopilot
+defaults and eliminate AI layout, copy, and asset clichés.
 
-## Visual, Color & Asset Patterns
+## Visual & Asset Patterns
 
-### 1. Autopilot "AI Culinary/SaaS" Color Habits (Deprioritize, Don't Ban)
-- **AI Pattern:** Reaching on autopilot for `warm cream (#FAF5EC) + dark brown
-  + terracotta/crimson (#D83A22)` on every food/cafe site, or `dark slate +
-  purple/blue glow` on every tech site, even when the user didn't ask for it.
-- **Issue:** Makes completely different projects look like the same AI model
-  template.
-- **Replacement:** Unless the user requests those colors, deliberately pick a
-  fresher palette first (e.g., deep tea-jade + porcelain + chili, midnight navy
-  + electric coral + off-white, cobalt + bone + brass, charcoal + sage + cream,
-  obsidian + cyan/pink).
+### 1. Text-Only "Pastel Pill + 3-Line Essay + Stepper" Product Grids
+- **AI Pattern:** A 2-column grid of white rounded cards where every card has
+  `[PASTEL PILL BADGE]` + `[Title]` + `[15–25 word AI description]` +
+  `[Price + (- 2 +) stepper]`, paired with a dark summary card—and **zero
+  product images on the cards**.
+- **Issue:** Looks 100% like an AI SaaS/ordering template (`Racik Kotak` slop).
+- **Replacement:** Show **real food/product photography** (`aspect-[4/3]
+  object-cover`) inside every featured card with **only title, price, and a
+  4–8 word tasting/spec line** (drop the pastel pill tag), OR use a clean
+  hairline list synced to a large live photo preview.
 
-### 2. Flat SVG Doodles Instead of Real Media (`imgs: 0`)
-- **AI Pattern:** Inline `<svg>` sketches (beans, cups, contour graphs, boxes)
-  inside dark rounded boxes taking the place of photography or artwork.
-- **Issue:** Immediately signals zero real visual assets.
-- **Replacement:** Generate 2–4 tailored images via `image-generator` and
-  display them edge-to-edge (`object-cover`), or build rich full-frame `<canvas>`
-  scenes.
+### 2. Flat Cartoon Vector Art Pretending to Be a Hero Photo
+- **AI Pattern:** A flat, smooth vector/cartoon illustration (e.g., 3 smooth
+  balls on a brown circle) floating on a solid gradient background.
+- **Issue:** Immediately reads as synthetic AI clip-art rather than real craft.
+- **Replacement:** When calling `image-generator`, explicitly request
+  **editorial studio photography, natural textures, directional lighting, and
+  shallow depth of field** (or detailed high-craft art direction matching the
+  brand)—never generic vector clip-art.
 
-### 3. Status-Dot Pill & Eyebrow Above the Headline
-- **AI Pattern:** A rounded pill (`• Batch #48 · Fresh`) or uppercase eyebrow
-  parked directly above a centered H1.
-- **Issue:** Textbook AI template ornament.
-- **Replacement:** Drop the decorative dot pill. Fold context cleanly into
-  top/edge metadata or directly into the copy.
+### 3. Wordy AI Prose Everywhere (Hurts UX & Real SEO Clarity)
+- **AI Pattern:** 20–35 word hero paragraphs, 15-word menu descriptions, and
+  long multi-sentence cards explaining obvious things (*"Cincangan kasar yang
+  memberi tekstur kenyal alami, bukan adonan halus yang terasa seperti..."*).
+- **Issue:** Bloats mobile height to `9,000px+` and screams AI copywriting.
+- **Replacement:** Keep visible UI copy razor-sharp (**`6–12 words`** per card
+  line, **`10–18 words`** max for hero subcopy). Put comprehensive business,
+  location, menu, and product details cleanly in **JSON-LD schema + `<meta>`
+  tags** for SEO.
 
-### 4. Repetitive `01 · MONO` + `Instrument Serif` + *Italic Accent* Headings
-- **AI Pattern:** Repeating `01 · SUBTITLE` above serif headings with the last
-  word italicized on every single band.
-- **Issue:** Turns an editorial look into an obvious mechanical pattern.
-- **Replacement:** Vary heading treatments and select font pairings matched to
-  the domain (`Syne`, `Bricolage Grotesque`, `Archivo Black`, `Fraunces`,
-  `Poppins`, `Space Grotesk`, `DM Sans`).
+### 4. Autopilot Color Habits (Deprioritize, Don't Ban)
+- **AI Pattern:** Defaulting automatically to `warm cream + dark brown +
+  terracotta` on food sites or `dark slate + purple glow` on tech sites when
+  the user didn't ask for those colors.
+- **Replacement:** Honor any color the user requests; otherwise pick fresher
+  domain-authentic palettes first.
 
-## Layout, Reference Balance & Collision Patterns
+### 5. Status-Dot Pills, Background Grids, & `01 · MONO + Serif *Italic*` Rut
+- **AI Pattern:** Pulsing status dots above `<h1>`, graph-paper background
+  grids, or repeating `01 · SUBTITLE` + `Instrument Serif` + *italic last word*.
+- **Replacement:** Clean editorial hierarchy without decorative dots or grids,
+  and varied typography pairings (`Syne`, `Bricolage Grotesque`, `Archivo
+  Black`, `Fraunces`, `Poppins`, `Space Grotesk`, `DM Sans`).
 
-### 5. Over-Leaning on `pos.efisien.id` Closing Trail & Hero
-- **AI Pattern:** Always building a centered dark-photo hero + 2 bottom-corner
-  floating cards + a bright red/orange full-width closing band with floating
-  photo stamps (`ClosingTrail`).
-- **Issue:** Makes every site look like a clone of `pos.efisien.id` instead of
-  blending `marsrejects.com` and `discodungeongame.com`.
-- **Replacement:** Alternate hero and closing patterns across builds: use
-  `marsrejects.com`'s **3D Text-Behind-Subject hero** and **full-bleed artwork
-  + clean dark horizon footer**, or `discodungeongame.com`'s **Scroll-Spine
-  stage** + **subscribe/action horizon footer**. If using `ClosingTrail`, keep
-  trail stamps strictly outside the centered text/CTA safe zone so they never
-  overlap paragraph copy.
-
-### 6. Wide Fixed Bottom Dock Eating Middle Content
-- **AI Pattern:** A `400px`-wide `position: fixed; bottom: 20px` dark capsule
-  bar sitting over tabs, calculators, menu rows, and footer links as you scroll.
-- **Issue:** Actively blocks interactive buttons and text in middle bands.
-- **Replacement:** Use a clean top navbar **OR** a compact circular floating
-  menu trigger (`<= 56px`, `marsrejects`-style) that expands only on click—never
-  a wide floating pill bar blocking middle-section controls.
-
-### 7. Copy-Paste 2x3 Cards & Repeated Dark Split Boxes
-- **AI Pattern:** Six identical bordered cards or repeated `[Left Text | Right
-  Dark Card]` sections.
-- **Issue:** Monotonous middle sections.
-- **Replacement:** Mix a staggered **3D Radial Burst Cluster** (`initRadialBurst`),
-  a **Horizontal Screens Carousel** (`initScreensCarousel`), **Tilted Story
-  Stickers**, and **Hairline Rows** (`border-bottom: 1px`).
+### 6. Floating Bottom Buttons/Docks Covering Mobile Content
+- **AI Pattern:** A fixed `(≡)` circle or wide bottom capsule floating over
+  WhatsApp buttons, menu rows, and footer text.
+- **Replacement:** Keep navigation cleanly inside a single-row top `<header>`
+  (with a slide-down/drawer menu on mobile) so **nothing floats over page
+  content**.

@@ -1,29 +1,34 @@
 ---
 name: uikeren-responsive
 description: >-
-  Responsive layout and touch hygiene skill for UI Keren. Prevents horizontal
-  overflow, overlapping fixed bottom docks, desktop-only 100vh slabs,
-  hover-only interactions, and undersized tap targets across viewports.
+  Mobile-first responsive reflow and touch hygiene skill for UI Keren. Prevents
+  bloated 9000px mobile stacks, multi-row cramped mobile headers, overlapping
+  floating buttons, horizontal overflow, and undersized tap targets.
 ---
 
-# UI Keren — Responsive Reflow & Safe Spacing
+# UI Keren — Mobile-First Reflow & Safe Spacing
 
-Use with `uikeren/SKILL.md`. Mobile and tablet layouts must reflow with
-intent, never just shrink desktop proportions.
+Use with `uikeren/SKILL.md`. Always inspect and design the **`375px` mobile
+view** as a first-class layout—never a giant vertical pile of desktop cards.
 
-## Reflow Rules
-- **3-State Fluidity**: Support single-column phone, 2-column tablet, and
-  multi-column desktop (`minmax()` / `auto-fit`), with `min-width: 0` on grid
-  and flex children so carousels or long headlines never push wider than `100vw`.
-- **Fluid Display Scale (`clamp()`)**: Never leave `74px–88px` fixed desktop
-  sizes on narrow `375px` viewports.
-- **Dynamic Viewport Heights**: Prefer `min-height: 85dvh` or `auto` on mobile
-  so browser address bars do not clip hero CTAs.
-- **Zero Bottom-Dock Content Collision**: Avoid wide fixed bottom bars that
-  cover middle-section tabs, calculators, or footer links. Prefer a clean top
-  bar OR a compact `<= 54px` floating trigger button with `padding-bottom: 96px`
-  on `footer`.
-- **Touch & Tap Parity**: Minimum `44x44px` hit target on controls; every hover
-  preview must also work on click/tap.
-- **Zero Horizontal Scroll**: Verify `scrollWidth <= innerWidth` at `375px` and
-  `1440px`.
+## Mandatory Mobile (`< 768px`) Rules
+- **Single-Row Compact Header (`<= 64px`)**: Keep mobile `<header>` on **one
+  horizontal row** (`Brand left | 1 CTA or Menu button right`). NEVER stack
+  address, opening hours, logo, and CTA into 3–4 vertical rows in the mobile
+  header—move secondary metadata into the mobile menu drawer and footer.
+- **Zero Floating Overlap**: Do NOT float a fixed `(≡)` circle or bottom bar
+  over buttons, cards, or footer text on mobile. If a bottom bar is ever
+  explicitly requested, hide it cleanly on scroll or reserve `padding-bottom:
+  112px` so zero text or CTA is ever covered.
+- **Kill the 9,000px Mobile Card Tunnel**: Never stack 6+ tall bordered cards
+  one-by-one down a `375px` screen. On mobile (`< 768px`), turn multi-item
+  card sets into either:
+  1. A **horizontal snap-scroll strip** (`display: flex; overflow-x: auto;
+     scroll-snap-type: x mandatory; gap: 12px`), OR
+  2. A **compact 2-column visual grid** / **clean hairline list**.
+- **Tight Mobile Rhythm**: Scale section padding down to `40px–56px` on
+  mobile (instead of `96px–128px`), use fluid `clamp()` display typography, and
+  avoid `100vh` slabs that push content below the fold.
+- **Touch Parity & Zero Overflow**: `>= 44x44px` tap targets; every hover state
+  must also work on tap; `document.documentElement.scrollWidth <= window.innerWidth`
+  across `375px`, `768px`, and `1440px`.
